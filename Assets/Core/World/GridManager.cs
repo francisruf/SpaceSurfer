@@ -31,12 +31,12 @@ public class GridManager : MonoBehaviour
 
     private void OnEnable()
     {
-        PlayerController.OnWorldPositionUpdate += HandleNewPlayerPositionUpdate;
+        Character.OnPlayerWorldPositionUpdate += HandleNewPlayerPositionUpdate;
     }
 
     private void OnDisable()
     {
-        PlayerController.OnWorldPositionUpdate -= HandleNewPlayerPositionUpdate;
+        Character.OnPlayerWorldPositionUpdate -= HandleNewPlayerPositionUpdate;
     }
 
     private void Awake()
@@ -50,8 +50,8 @@ public class GridManager : MonoBehaviour
 
     private void Start()
     {
-        PlayerController player = FindObjectOfType<PlayerController>();
-        _originTile = _tilemap.WorldToCell(player.transform.position);
+        //PlayerController player = FindObjectOfType<PlayerController>();
+        //_originTile = _tilemap.WorldToCell(player.transform.position);
 
         //SpawnStartTiles();
         //_tilemap.SetTile(_originTile, _playerStartTile);
@@ -68,9 +68,9 @@ public class GridManager : MonoBehaviour
     }
 
 
-    private void HandleNewPlayerPositionUpdate(PlayerController controller)
+    private void HandleNewPlayerPositionUpdate(Character character)
     {
-        currentPlayerChunk = WorldToChunk(controller.transform.position);
+        currentPlayerChunk = WorldToChunk(character.transform.position);
         //playerChunkText.text = "Player in chunk : " + currentPlayerChunk.ToString();
 
         int renderDist = worldSettings.chunkRenderDistance;

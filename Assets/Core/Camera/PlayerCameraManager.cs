@@ -4,28 +4,27 @@ using UnityEngine;
 
 public class PlayerCameraManager : MonoBehaviour
 {
-    private PlayerController _player;
+    private Character _player;
     private bool _shouldFollow;
     Vector3 targetPos = new Vector3();
 
     private void OnEnable()
     {
-        PlayerController.OnPlayerControllerInstantiate += HandleNewPlayerController;
+        Character.OnPlayerCharacterInstantiate += HandleNewPlayerCharacter;
     }
 
     private void OnDisable()
     {
-        PlayerController.OnPlayerControllerInstantiate -= HandleNewPlayerController;
+        Character.OnPlayerCharacterInstantiate += HandleNewPlayerCharacter;
     }
 
     private void Awake()
     {
         targetPos.z = transform.position.z;
     }
-
-    private void HandleNewPlayerController(PlayerController controller)
+    private void HandleNewPlayerCharacter(Character character)
     {
-        _player = controller;
+        _player = character;
         _shouldFollow = _player != null ? true : false;
     }
 
@@ -37,11 +36,5 @@ public class PlayerCameraManager : MonoBehaviour
         targetPos.x = _player.transform.position.x;
         targetPos.y = _player.transform.position.y;
         transform.position = targetPos;
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-            Debug.Log(GameManager.instance.PlayerController.gameObject.name);
     }
 }

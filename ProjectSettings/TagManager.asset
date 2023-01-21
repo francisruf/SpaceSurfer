@@ -41,6 +41,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Environment
+    uniqueID: 1154028463
+    locked: 0
+  - name: Player
+    uniqueID: 2277439107
+    locked: 0
   - name: ScreenSpaceVFX
     uniqueID: 1439083101
     locked: 0

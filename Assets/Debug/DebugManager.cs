@@ -21,10 +21,28 @@ public class DebugManager : MonoBehaviour
     private bool _debugEnabled;
     private int _debugWindDirection;
 
+    // Game references
+    private Character _playerCharacter;
+
+    private void OnEnable()
+    {
+        Character.OnPlayerCharacterInstantiate += HandleNewPlayerCharacter;
+    }
+
+    private void OnDisable()
+    {
+        Character.OnPlayerCharacterInstantiate -= HandleNewPlayerCharacter;
+    }
+
     private void Awake()
     {
         _debugCanvas = GetComponentInChildren<Canvas>();
         _debugCanvas.enabled = _enableAtStart;
+    }
+
+    private void HandleNewPlayerCharacter(Character character)
+    {
+        _playerCharacter = character;
     }
 
     private void ToggleDebugCanvas(bool enableDebug)
@@ -37,6 +55,9 @@ public class DebugManager : MonoBehaviour
     // TODO : Move this to the player controller
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.F1))
+            _playerCharacter?.ToggleDebug();
+
         if (Input.GetKeyDown(KeyCode.F12))
             ToggleDebugCanvas(!_debugEnabled);
 
