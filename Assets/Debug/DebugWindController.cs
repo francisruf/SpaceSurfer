@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WindController : MonoBehaviour
+public class DebugWindController : MonoBehaviour
 {
     // Internal logic
     private int _windDirection;

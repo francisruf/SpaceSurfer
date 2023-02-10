@@ -47,6 +47,9 @@ TagManager:
   - name: Player
     uniqueID: 2277439107
     locked: 0
+  - name: Weather
+    uniqueID: 2442350533
+    locked: 0
   - name: ScreenSpaceVFX
     uniqueID: 1439083101
     locked: 0
