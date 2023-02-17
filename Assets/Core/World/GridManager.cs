@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Tilemaps;
 
+[RequireComponent(typeof(GlobalObstacleController))]
 public class GridManager : MonoBehaviour
 {
     // DEBUG
@@ -14,11 +15,11 @@ public class GridManager : MonoBehaviour
     [SerializeField] private TileBase _playerStartTile;
     [SerializeField] private TileBase[] tilePool;
     [SerializeField] private TileBase _defaultTile;
-    [SerializeField] private Texture2D _textureMap;
 
     // Components
     private Grid _grid;
     private Tilemap _tilemap;
+    private GlobalObstacleController _obstacleController;
 
     // World data
     // TODO : This needs to be nested in an even bigger coordinate system
@@ -41,6 +42,7 @@ public class GridManager : MonoBehaviour
 
     private void Awake()
     {
+        _obstacleController = GetComponent<GlobalObstacleController>();
         _grid = GetComponent<Grid>();
         _tilemap = GetComponentInChildren<Tilemap>();
         _allChunkData = new ChunkData[_maxWorldSize, _maxWorldSize];
@@ -122,37 +124,6 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private void SpawnTilesFromTexture(Texture2D tex, float scaleFactor)
-    {
-        int texSizeX = tex.width;
-        int texSizeY = tex.height;
-
-        for (int x = 0; x < texSizeX / scaleFactor; x++)
-        {
-            for (int y = 0; y < texSizeY / scaleFactor; y++)
-            {
-                bool positivePixel = tex.GetPixel((int)(x * scaleFactor), (int)(y * scaleFactor)).r > 0f;
-
-                Vector3Int tileCoord = new Vector3Int(x, y, 0);
-                TileBase targetTile = positivePixel ? _playerStartTile : _defaultTile;
-                _tilemap.SetTile(tileCoord, targetTile);
-            }
-        }
-    }
-
-    private void SpawnStartTiles()
-    {
-        int chunkAmount = worldSettings.chunkRenderDistance;
-
-        for (int x = 0 - chunkAmount; x < 0 + chunkAmount; x++)
-        {
-            for (int y = 0 - chunkAmount; y < 0 + chunkAmount; y++)
-            {
-                SpawnChunk(x, y);
-            }
-        }
-    }
-
     private ChunkData GetChunkAtPosition(int chunkX, int chunkY)
     {
         int halfWorldSize = _maxWorldSize / 2;
@@ -175,6 +146,7 @@ public class GridManager : MonoBehaviour
 
         int size = worldSettings.chunkSize;
         TileBase[,] newTiles = new TileBase[worldSettings.chunkSize, worldSettings.chunkSize];
+        TileBase[,] obstacles = _obstacleController.GenerateObstaclesInChunk(size, chunkX, chunkY);
 
         // TODO : Temporary random tile assigned on spawn
         TileBase chunkTile = tilePool[Random.Range(0, tilePool.Length)];
@@ -183,6 +155,11 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < size; y++)
             {
+                if (obstacles[x,y] != null)
+                {
+                    newTiles[x, y] = obstacles[x, y];
+                    continue;
+                }
                 newTiles[x,y] = chunkTile;
             }
         }

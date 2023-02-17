@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1847115484793967962}
   - component: {fileID: 5906993677756785128}
   m_Layer: 0
-  m_Name: Sail_Default
+  m_Name: Sail_Debug
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -118,4 +118,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 208d14c96a1ff754789a8d12e7ef366f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sailProperties: {fileID: 11400000, guid: 47677d868664ae34c95299c828f753d6, type: 2}
+  _sailProperties: {fileID: 11400000, guid: b1424a6d189762e4faeef5703a6b9c4f, type: 2}
