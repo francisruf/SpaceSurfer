@@ -17,12 +17,11 @@ public class GlobalObstacleController : MonoBehaviour
 
     private Vector2[] _currentOctaveOffsets;
 
-    private void Start()
+    private void Awake()
     {
         _currentOctaveOffsets = new Vector2[_noiseSettings.octaves];
         _currentOctaveOffsets = NoiseGenerator.GenerateOctaveOffsets(_noiseSettings.octaves);
     }
-
 
     public TileBase[,] GenerateObstaclesInChunk(int chunkSize, int chunkX, int chunkY)
     {
@@ -35,8 +34,8 @@ public class GlobalObstacleController : MonoBehaviour
         settings.lacunarity = _noiseSettings.lacunarity;
 
         Vector3Int gridOffset = new Vector3Int(chunkX * chunkSize, chunkY * chunkSize, 0);
-        float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(settings, _currentOctaveOffsets, gridOffset, 0f, Vector2.zero, false);
 
+        float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(settings, _currentOctaveOffsets, gridOffset, 0f, Vector2.zero, false);
         TileBase[,] tiles = new TileBase[chunkSize, chunkSize];
 
         for (int x = 0; x < chunkSize; x++)

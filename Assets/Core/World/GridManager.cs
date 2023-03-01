@@ -12,9 +12,7 @@ public class GridManager : MonoBehaviour
 
     // Public params
     public WorldSettings worldSettings;
-    [SerializeField] private TileBase _playerStartTile;
     [SerializeField] private TileBase[] tilePool;
-    [SerializeField] private TileBase _defaultTile;
 
     // Components
     private Grid _grid;
@@ -48,16 +46,6 @@ public class GridManager : MonoBehaviour
         _allChunkData = new ChunkData[_maxWorldSize, _maxWorldSize];
 
         _grid.cellSize = new Vector3(worldSettings.gridCellSize, worldSettings.gridCellSize);
-    }
-
-    private void Start()
-    {
-        //PlayerController player = FindObjectOfType<PlayerController>();
-        //_originTile = _tilemap.WorldToCell(player.transform.position);
-
-        //SpawnStartTiles();
-        //_tilemap.SetTile(_originTile, _playerStartTile);
-        //SpawnTilesFromTexture(_textureMap, 5f);
     }
 
     private Vector3Int WorldToChunk(Vector3 worldPos)
