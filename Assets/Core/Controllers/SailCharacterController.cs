@@ -19,6 +19,16 @@ public class SailCharacterController : PlayerController
         _sailCharacter.RequestMove(value.Get<Vector2>());
     }
 
+    public void OnSailRotation(InputValue value)
+    {
+        _sailCharacter.RequestSailRotation(value.Get<Vector2>());
+    }
+
+    public void OnSailRotation1D(InputValue value)
+    {
+        _sailCharacter.RequestSailRotation1D(value.Get<float>());
+    }
+
     public void OnSailOpen(InputValue value)
     {
         _sailCharacter.RequestSailOpen();
@@ -27,6 +37,5 @@ public class SailCharacterController : PlayerController
     public void OnSailClose(InputValue value)
     {
         _sailCharacter.RequestSailClose();
-
     }
 }

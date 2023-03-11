@@ -98,7 +98,7 @@ GameObject:
   - component: {fileID: 6061405500895120865}
   - component: {fileID: 5523735188310629078}
   m_Layer: 0
-  m_Name: P_DebugCharacter
+  m_Name: DebugCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

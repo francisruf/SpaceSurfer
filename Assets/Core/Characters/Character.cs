@@ -22,6 +22,11 @@ public abstract class Character : MonoBehaviour
         Debug.Log("Character Debug : " + _debugEnabled);
     }
 
+    public virtual string GetCharacterDebugData()
+    {
+        return "<size=150%>No Character Data</size>";
+    }
+
     protected virtual void Start()
     {
         // Initialize Character in scenes without GameManager

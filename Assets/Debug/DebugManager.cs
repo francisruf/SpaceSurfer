@@ -15,6 +15,7 @@ public class DebugManager : MonoBehaviour
     // Components
     private Canvas _debugCanvas;
     public TextMeshProUGUI _windDirectionText;
+    public TextMeshProUGUI _characterDataText;
 
     // Internal logic
     // TODO : Move this to the controller
@@ -63,6 +64,9 @@ public class DebugManager : MonoBehaviour
 
         if (!_debugEnabled)
             return;
+
+        if (_playerCharacter != null)
+            _characterDataText.text = _playerCharacter.GetCharacterDebugData();
     }
 
     // TODO : This should read the value of WindController instead of assigning it.

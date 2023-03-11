@@ -2,6 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO : TEMP DEBUG
+public enum ESailRotationType
+{
+    Passthrough,
+    OneDimension
+}
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class SailCharacter : Character
 {
@@ -24,8 +31,13 @@ public class SailCharacter : Character
 
     // Sail logic
     private Sail _currentSail;
+    private float _targetSailAngle;
+    private float _targetSailDirection;
 
     [Header("Debug")]
+    [SerializeField] private ESailRotationType _sailRotationType;
+    [SerializeField] private bool _clampSailRotation;
+    [SerializeField] private float _sailRotationSpeed = 5f;
     [SerializeField] private bool _addBaseMovement = false;
     [SerializeField] private Vector2[] _debugForces = new Vector2[10];
 
@@ -51,11 +63,12 @@ public class SailCharacter : Character
     private void FixedUpdate()
     {
         AssignBaseMovementForce();
-        AssignSailMovementForce();
-        AssignDebugForces();
+        //AssignSailMovementForce();
+        //AssignDebugForces();
 
         RotateCharacter();
         MoveCharacter();
+        RotateSail();
     }
 
     public override void RequestMove(Vector2 direction)
@@ -66,11 +79,51 @@ public class SailCharacter : Character
         _targetDirection = direction;
     }
 
+
+
     private void RotateCharacter()
     {
         float targetAngle = (Mathf.Atan2(_targetDirection.y, _targetDirection.x) * Mathf.Rad2Deg) - 90f;
         float newAngle = Mathf.LerpAngle(transform.rotation.eulerAngles.z, targetAngle, _rotationSpeed * Time.fixedDeltaTime);
         _rigidbody.MoveRotation(newAngle);
+    }
+
+    public virtual void RequestSailRotation(Vector2 direction)
+    {
+        if (_sailRotationType != ESailRotationType.Passthrough)
+            return;
+
+        //TODO : Hard coded deadzone
+        if (direction.magnitude > 0.5f)
+        {
+            direction.Normalize();
+            _targetSailAngle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg) - 90f;
+        }
+    }
+
+    public virtual void RequestSailRotation1D(float direction)
+    {
+        if (_sailRotationType != ESailRotationType.OneDimension)
+            return;
+
+        _targetSailDirection = -direction;
+
+    }
+
+
+    private void RotateSail()
+    {
+        switch (_sailRotationType)
+        {
+            case ESailRotationType.OneDimension:
+                _targetSailAngle += (_targetSailDirection * _sailRotationSpeed * Time.fixedDeltaTime);
+                if (_clampSailRotation)
+                    _targetSailAngle = Mathf.Clamp(_targetSailAngle, -85f, 85f);
+                break;
+            default:
+                break;
+        }
+        _currentSail.transform.localRotation = Quaternion.Euler(0f, 0f, _targetSailAngle);
     }
 
     private void AssignBaseMovementForce()
@@ -147,5 +200,12 @@ public class SailCharacter : Character
 
         int newState = Mathf.Clamp(((int)_currentSail.SailState) - 1, 0, 2);
         _currentSail.ChangeSailState((ESailState)newState);
+    }
+
+    public override string GetCharacterDebugData()
+    {
+        string characterData = "<size=150%>Sail Character</size>";
+        characterData += "\nTarget Sail Angle : " + _targetSailAngle;
+        return characterData;
     }
 }

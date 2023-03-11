@@ -142,6 +142,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "SailRotation",
+                    "type": "Value",
+                    "id": "a6ebff6b-8f46-47ce-b08f-31ee97fd6984",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "SailOpen",
                     "type": "Button",
                     "id": "786462d1-1a4a-4172-add6-7bc91fdcd065",
@@ -158,6 +167,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "SailRotation1D",
+                    "type": "PassThrough",
+                    "id": "e5a03679-4b71-4978-a7df-814eacf9353a",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -314,6 +332,61 @@
                     "action": "SailClose",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5e04dd81-5f2f-4a51-bf29-9be694f803a9",
+                    "path": "<Gamepad>/rightStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SailRotation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "788b068d-5db5-4b32-bfa5-9ea08a07d88e",
+                    "path": "<Gamepad>/rightStick/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SailRotation1D",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "668066da-ddb5-4194-b312-620daf5cba08",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SailRotation1D",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "84daf053-c78e-492d-8387-bb0e68f01f56",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SailRotation1D",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "104433a9-07d0-4288-b847-4014b9f43086",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SailRotation1D",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },
