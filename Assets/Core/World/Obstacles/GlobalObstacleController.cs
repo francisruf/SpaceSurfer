@@ -8,16 +8,19 @@ using UnityEngine.Tilemaps;
 
 public class GlobalObstacleController : MonoBehaviour
 {
-    // Components
-    [SerializeField] private ObstacleNoiseRenderer _noiseRenderer;
-
+    [Header("Settings")]
     [SerializeField] private NoiseSettings _noiseSettings;
-    [SerializeField] private SBlockingObstacleTiles[] _tiles;
-    public SBlockingObstacleTiles[] Tiles { get { return _tiles; } }
+
+    [SerializeField] private SNoiseTile[] _tiles;
+    public SNoiseTile[] Tiles { get { return _tiles; } }
+
+    [Header("Debug")]
+    [SerializeField] private NoiseRenderer _debugObstacleRenderer;
 
     private Vector2[] _currentOctaveOffsets;
 
-    private void Awake()
+
+    private void GenerateOctaves()
     {
         _currentOctaveOffsets = new Vector2[_noiseSettings.octaves];
         _currentOctaveOffsets = NoiseGenerator.GenerateOctaveOffsets(_noiseSettings.octaves);
@@ -25,6 +28,9 @@ public class GlobalObstacleController : MonoBehaviour
 
     public TileBase[,] GenerateObstaclesInChunk(int chunkSize, int chunkX, int chunkY)
     {
+        if (_currentOctaveOffsets == null)
+            GenerateOctaves();
+
         NoiseSettings settings = (NoiseSettings)ScriptableObject.CreateInstance(typeof(NoiseSettings));
         settings.mapWidth = chunkSize;
         settings.mapHeight = chunkSize;
@@ -65,11 +71,17 @@ public class GlobalObstacleController : MonoBehaviour
 
     public void GenerateDebugMap()
     {
+        if (_debugObstacleRenderer == null)
+        {
+            Debug.LogError("No noise renderer assigned to GlobalObstacleController.");
+            return;
+        }
+
         _currentOctaveOffsets = new Vector2[_noiseSettings.octaves];
         _currentOctaveOffsets = NoiseGenerator.GenerateOctaveOffsets(_noiseSettings.octaves);
 
         float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, Vector3Int.zero, 0f, Vector2.zero, false);
-        _noiseRenderer.RenderNoiseMapByTile(noiseMap, _noiseSettings, Vector3Int.zero);
+        _debugObstacleRenderer.RenderNoiseMapByTile(noiseMap, _noiseSettings, Vector3Int.zero, _tiles);
     }
 }
 
@@ -89,7 +101,7 @@ public class GlobalObstacleControllerEditor : Editor
 }
 
 [System.Serializable]
-public struct SBlockingObstacleTiles
+public struct SNoiseTile
 {
     public TileBase tile;
     public float value;

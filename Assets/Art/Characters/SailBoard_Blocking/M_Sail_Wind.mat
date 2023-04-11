@@ -62,13 +62,13 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _CellDensity: 0.5
+    - _CellDensity: 2.9
     - _EnableExternalAlpha: 0
     - _PPU: 32
     - _PixelateAmount: 32
-    - _Speed: 32.45
+    - _Speed: 29.03
     - _SpriteSize: 32
-    - _VoronoiBlend: 0.27
+    - _VoronoiBlend: 0.19
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}

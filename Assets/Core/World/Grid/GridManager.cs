@@ -4,12 +4,8 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Tilemaps;
 
-[RequireComponent(typeof(GlobalObstacleController))]
 public class GridManager : MonoBehaviour
 {
-    // DEBUG
-    public TextMeshProUGUI playerChunkText;
-
     // Public params
     public WorldSettings worldSettings;
     [SerializeField] private TileBase[] tilePool;
@@ -40,7 +36,7 @@ public class GridManager : MonoBehaviour
 
     private void Awake()
     {
-        _obstacleController = GetComponent<GlobalObstacleController>();
+        _obstacleController = FindObjectOfType<GlobalObstacleController>();
         _grid = GetComponent<Grid>();
         _tilemap = GetComponentInChildren<Tilemap>();
         _allChunkData = new ChunkData[_maxWorldSize, _maxWorldSize];
@@ -57,11 +53,32 @@ public class GridManager : MonoBehaviour
         return ChunkPos;
     }
 
+    private ChunkData GetChunkAtPosition(int chunkX, int chunkY)
+    {
+        int halfWorldSize = _maxWorldSize / 2;
+        return _allChunkData[chunkX + halfWorldSize, chunkY + halfWorldSize];
+    }
+
+    private void SetChunkDataAtPosition(int chunkX, int chunkY, ChunkData newData)
+    {
+        int halfWorldSize = _maxWorldSize / 2;
+        _allChunkData[chunkX + halfWorldSize, chunkY + halfWorldSize] = newData;
+    }
 
     private void HandleNewPlayerPositionUpdate(Character character)
     {
         currentPlayerChunk = WorldToChunk(character.transform.position);
         //playerChunkText.text = "Player in chunk : " + currentPlayerChunk.ToString();
+
+        UpdateChunks();
+    }
+
+ 
+
+    private void UpdateChunks()
+    {
+        if (worldSettings.worldType == WorldType.Handmade)
+            return;
 
         int renderDist = worldSettings.chunkRenderDistance;
 
@@ -71,7 +88,20 @@ public class GridManager : MonoBehaviour
             {
                 ChunkData chunkData = GetChunkAtPosition(x, y);
                 if (chunkData == null)
-                    chunkData = SpawnChunk(x, y);
+                {
+                    switch (worldSettings.worldType)
+                    {
+                        case WorldType.ProceduralEmpty:
+                            chunkData = SpawnEmptyChunk(x, y);
+                            break;
+                        case WorldType.ProceduralObstacles:
+                            chunkData = SpawnChunkWithObstacleMap(x, y);
+                            break;
+                    }
+                }
+
+                if (chunkData == null)
+                    continue;
 
                 // TODO : Optimize
                 if (!_renderedChunks.Contains(chunkData))
@@ -112,20 +142,41 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    private ChunkData GetChunkAtPosition(int chunkX, int chunkY)
+    private ChunkData SpawnEmptyChunk(int chunkX, int chunkY)
     {
-        int halfWorldSize = _maxWorldSize / 2;
-        return _allChunkData[chunkX + halfWorldSize, chunkY + halfWorldSize];
+        if (chunkX >= 250 || chunkX <= -250 || chunkY >= 250 || chunkY <= -250)
+        {
+            Debug.LogError("Gridmanager : Attempted to spawn a chunk outside of maximum world size");
+            return null;
+        }
+
+        int size = worldSettings.chunkSize;
+        TileBase[,] newTiles = new TileBase[worldSettings.chunkSize, worldSettings.chunkSize];
+
+        // TODO : Temporary random tile assigned on spawn
+        TileBase chunkTile = tilePool[Random.Range(0, tilePool.Length)];
+
+        for (int x = 0; x < size; x++)
+        {
+            for (int y = 0; y < size; y++)
+            {
+                newTiles[x, y] = chunkTile;
+            }
+        }
+        ChunkData newChunkData = new ChunkData(chunkX, chunkY, newTiles);
+        SetChunkDataAtPosition(chunkX, chunkY, newChunkData);
+
+        return newChunkData;
     }
 
-    private void SetChunkDataAtPosition(int chunkX, int chunkY, ChunkData newData)
+    private ChunkData SpawnChunkWithObstacleMap(int chunkX, int chunkY)
     {
-        int halfWorldSize = _maxWorldSize / 2;
-        _allChunkData[chunkX + halfWorldSize, chunkY + halfWorldSize] = newData;
-    }
+        if (_obstacleController == null)
+        {
+            Debug.LogError("GridManager could not find obstacle controller.");
+            return SpawnEmptyChunk(chunkX, chunkY);
+        }
 
-    private ChunkData SpawnChunk(int chunkX, int chunkY)
-    {
         if (chunkX >= 250 || chunkX <= -250 || chunkY >= 250 || chunkY <= -250)
         {
             Debug.LogError("Gridmanager : Attempted to spawn a chunk outside of maximum world size");
@@ -143,12 +194,12 @@ public class GridManager : MonoBehaviour
         {
             for (int y = 0; y < size; y++)
             {
-                if (obstacles[x,y] != null)
+                if (obstacles[x, y] != null)
                 {
                     newTiles[x, y] = obstacles[x, y];
                     continue;
                 }
-                newTiles[x,y] = chunkTile;
+                newTiles[x, y] = chunkTile;
             }
         }
         ChunkData newChunkData = new ChunkData(chunkX, chunkY, newTiles);

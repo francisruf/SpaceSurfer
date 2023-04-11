@@ -1,0 +1,74 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3622463494798730359
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 166603621254284928}
+  - component: {fileID: 4712552417952133875}
+  - component: {fileID: 4930183495740377615}
+  m_Layer: 0
+  m_Name: ObstacleController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &166603621254284928
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3622463494798730359}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4712552417952133875
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3622463494798730359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dac8f49f7026924c9a119b929d06bbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _noiseSettings: {fileID: 11400000, guid: 648e205b63eda8946894ebadb38f3a6e, type: 2}
+  _tiles:
+  - tile: {fileID: 0}
+    value: 0.6
+  - tile: {fileID: 11400000, guid: 65a2d8d21f66ec8408820c63a8d3beb4, type: 2}
+    value: 0.65
+  - tile: {fileID: 11400000, guid: dc5787ad3805def4ea4f86e2fe27feed, type: 2}
+    value: 0.7
+  - tile: {fileID: 11400000, guid: 53d3059675c9039409e3c67c7cd958d0, type: 2}
+    value: 0.8
+  - tile: {fileID: 11400000, guid: 0d8a4b2c261ff774fbcafe2a5461705f, type: 2}
+    value: 50
+  _debugObstacleRenderer: {fileID: 4930183495740377615}
+--- !u!114 &4930183495740377615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3622463494798730359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3332cc0a069aa5f44a12ed14000e3728, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _targetTileMap: {fileID: 0}
+  _defaultTile: {fileID: 11400000, guid: 781637fd94b7b6549a08d6d9631fa8c2, type: 2}

@@ -15,3 +15,4 @@ MonoBehaviour:
   gridCellSize: 1
   chunkSize: 10
   chunkRenderDistance: 4
+  worldType: 2

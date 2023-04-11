@@ -9,4 +9,13 @@ public class WorldSettings : ScriptableObject
     public int gridCellSize = 1;
     public int chunkSize = 5;
     public int chunkRenderDistance = 2;
+    public WorldType worldType = WorldType.Handmade;
+}
+
+[System.Serializable]
+public enum WorldType
+{
+    Handmade,
+    ProceduralEmpty,
+    ProceduralObstacles
 }
