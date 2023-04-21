@@ -4,7 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.Tilemaps;
 
-public class GridManager : MonoBehaviour
+public class WorldGridManager : MonoBehaviour
 {
     // Public params
     public WorldSettings worldSettings;

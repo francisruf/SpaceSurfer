@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GlobalWindController : MonoBehaviour
+public class GlobalWind : WeatherSystem
 {
     // Components
     private NoiseRenderer _windRenderer;
