@@ -168,8 +168,8 @@ public class SailCharacter : Character
 
     private void DrawTargetRotation()
     {
-        Debug.DrawLine(transform.position, transform.position + (Vector3)_targetDirection, Color.red);
-        Debug.DrawLine(transform.position, transform.position + transform.up, Color.green);
+        //Debug.DrawLine(transform.position, transform.position + (Vector3)_targetDirection, Color.red);
+        //Debug.DrawLine(transform.position, transform.position + transform.up, Color.green);
     }
 
     private void SpawnDefaultSail()

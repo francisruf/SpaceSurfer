@@ -7,7 +7,7 @@ public class NoiseRenderer : MonoBehaviour
 {
     [SerializeField] protected Tilemap _targetTileMap;
     [SerializeField] protected TileBase _defaultTile;
-  
+
     public virtual void RenderNoiseMapByColor(float[,] noiseMap, NoiseSettings settings, Vector3Int globalOffset)
     {
         _targetTileMap.ClearAllTiles();

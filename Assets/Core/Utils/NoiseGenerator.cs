@@ -7,7 +7,8 @@ using UnityEditor;
 public static class NoiseGenerator
 {
     // TODO : Add overrides for static maps
-    public static float[,] GenerateNoiseMap(NoiseSettings settings, Vector2[]octaveOffsets, Vector3Int globalOffset, float time, Vector2 timeOffsetDirection, bool normalizeNoise)
+
+    public static float[,] GenerateNoiseMap(NoiseSettings settings, Vector2[] octaveOffsets, Vector3Int globalOffset, float time, Vector2 timeOffsetDirection, bool normalizeNoise)
     {
         float[,] noiseMap = new float[settings.mapWidth, settings.mapHeight];
         // Prevent division by 0
@@ -41,7 +42,7 @@ public static class NoiseGenerator
 
                     if (noiseHeight < minNoiseHeight)
                         minNoiseHeight = perlinValue;
-                    
+
                     else if (noiseHeight > maxNoiseHeight)
                         maxNoiseHeight = perlinValue;
 

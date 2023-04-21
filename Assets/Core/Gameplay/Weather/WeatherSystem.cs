@@ -5,50 +5,23 @@ using UnityEngine;
 public class WeatherSystem : MonoBehaviour
 {
     [Header("Settings")]
-    [SerializeField] protected bool _enableOnInitialize;
-    
-    protected WeatherGridManager _weatherGridManager;
-    protected IEnumerator _weatherUpdate;
+    [SerializeField] protected bool _debug;
+
     protected bool _isEnabled;
+    protected WeatherGrid _weatherGrid;
     
-
-    public virtual void Initialize(WeatherGridManager manager)
+    public virtual void Initialize(WeatherGrid grid)
     {
-        _weatherGridManager = manager;
-
-        if (_enableOnInitialize)
-        {
-            _weatherUpdate = UpdateWeather();
-            StartCoroutine(_weatherUpdate);
-        }    
+        _weatherGrid = grid;
     }
 
     protected virtual void EnableSystem()
     {
-        if (_isEnabled)
-            return;
-
-        if (_weatherUpdate != null)
-            return;
-
-        _weatherUpdate = UpdateWeather();
-        StartCoroutine(_weatherUpdate);
+        _isEnabled = true;
     }
 
     protected virtual void DisableSystem()
     {
-        if (!_isEnabled)
-            return;
-
-        if (_weatherUpdate == null)
-            StopCoroutine(_weatherUpdate);
-
-        _weatherUpdate = null;
+        _isEnabled = false;
     }
-
-    protected virtual IEnumerator UpdateWeather()
-    {
-        yield return null;
-    }
-
 }

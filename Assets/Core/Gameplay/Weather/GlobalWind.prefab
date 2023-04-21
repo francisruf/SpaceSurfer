@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3441895513825904983}
   - component: {fileID: 3441895513825904977}
   m_Layer: 0
-  m_Name: GlobalWindController
+  m_Name: GlobalWind
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,8 +45,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1122e4b656d760846a692d489b1d19b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _debug: 0
   _noiseSettings: {fileID: 11400000, guid: 1c37d0f5e08685943ac9b8f3d577b6af, type: 2}
-  _debugDirection: {x: 0.5, y: 0}
+  _debugDirection: {x: 0.5, y: 0.25}
 --- !u!114 &3441895513825904977
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60,4 +61,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _targetTileMap: {fileID: 0}
-  _defaultTile: {fileID: 11400000, guid: 781637fd94b7b6549a08d6d9631fa8c2, type: 2}
+  _defaultTile: {fileID: 11400000, guid: 602ff1c8cd88ce846977eb116a72c4f5, type: 2}
