@@ -8,7 +8,7 @@ public class WeatherManager : MonoBehaviour
     //private WeatherSystem[] _allWeatherSystems;
 
     // Components
-    private WeatherGrid _weatherGrid;
+    private LegacyWeatherGrid _weatherGrid;
 
     private Character _player;
 
@@ -24,7 +24,7 @@ public class WeatherManager : MonoBehaviour
 
     private void Awake()
     {
-        _weatherGrid = FindObjectOfType<WeatherGrid>();
+        _weatherGrid = FindObjectOfType<LegacyWeatherGrid>();
 
         if (_weatherGrid == null)
             Debug.LogError("Weather manager could not find weather grid and will not function properly.");

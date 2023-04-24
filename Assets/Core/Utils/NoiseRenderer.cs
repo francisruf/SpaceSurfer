@@ -92,6 +92,11 @@ public class NoiseRenderer : MonoBehaviour
         _targetTileMap.SetTiles(tilePositions, tiles);
     }
 
+    public void ClearAllTiles()
+    {
+        _targetTileMap.ClearAllTiles();
+    }
+
 
     protected virtual Color GetColorByNoiseValue(float noiseValue)
     {

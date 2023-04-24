@@ -83,6 +83,11 @@ public class GlobalObstacleController : MonoBehaviour
         float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, Vector3Int.zero, 0f, Vector2.zero, false);
         _debugObstacleRenderer.RenderNoiseMapByTile(noiseMap, _noiseSettings, Vector3Int.zero, _tiles);
     }
+
+    public void CleanUpDebugMap()
+    {
+        _debugObstacleRenderer.ClearAllTiles();
+    }
 }
 
 [CustomEditor(typeof(GlobalObstacleController))]
@@ -97,6 +102,9 @@ public class GlobalObstacleControllerEditor : Editor
 
         if (GUILayout.Button("Generate test"))
             controller.GenerateDebugMap();
+
+        if (GUILayout.Button("Cleanup Map"))
+            controller.CleanUpDebugMap();
     }
 }
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
-public class WeatherGrid : MonoBehaviour
+public class LegacyWeatherGrid : MonoBehaviour
 {
     [SerializeField] private Grid _tilemapGrid;
     public Grid TilemapGrid { get { return _tilemapGrid; } }
@@ -84,13 +84,13 @@ public class WeatherGrid : MonoBehaviour
     }
 }
 
-[CustomEditor(typeof(WeatherGrid))]
+[CustomEditor(typeof(LegacyWeatherGrid))]
 public class WeatherGridEditor : Editor
 {
     public override void OnInspectorGUI()
     {
         base.OnInspectorGUI();
-        WeatherGrid weatherGrid = (WeatherGrid)target;
+        LegacyWeatherGrid weatherGrid = (LegacyWeatherGrid)target;
         weatherGrid.TilemapGrid.cellSize = new Vector3(weatherGrid.gridCellSize, weatherGrid.gridCellSize);
     }
 }

@@ -32,7 +32,7 @@ public class GlobalWind : WeatherSystem
         _windRenderer = GetComponent<NoiseRenderer>();
     }
 
-    public override void Initialize(WeatherGrid grid)
+    public override void Initialize(LegacyWeatherGrid grid)
     {
         base.Initialize(grid);
 
@@ -50,17 +50,6 @@ public class GlobalWind : WeatherSystem
         float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, _playerPositionOffset, _time, _direction, false);
 
         Vector3Int[] GridPositions = new Vector3Int[_noiseSettings.mapWidth * _noiseSettings.mapHeight];
-
-
-        for (int x = 0; x < _noiseSettings.mapWidth; x++)
-        {
-            for (int y = 0; y < _noiseSettings.mapHeight; y++)
-            {
-                GridPositions[x + y * _noiseSettings.mapWidth] = new Vector3Int(x + _playerPositionOffset.x, y + _playerPositionOffset.y);
-            }
-        }
-
-        _weatherGrid.AssignWeatherSystem(GridPositions, this);
 
         _time += Time.deltaTime * _windSpeed;
 
