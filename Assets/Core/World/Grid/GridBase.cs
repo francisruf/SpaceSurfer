@@ -10,14 +10,18 @@ public abstract class GridBase<T> : MonoBehaviour
     public TextMeshProUGUI playerChunkText;
 
     [Header("Grid Settings")]
-    [SerializeField] protected int _chunkSize;
+    [SerializeField] protected int _chunkSizeX = 10;
+    [SerializeField] protected int _chunkSizeY = 10;
+
     [SerializeField] protected int _chunkRenderDistance;
 
     // Components
     protected Grid _grid;
 
     // Grid
-    protected float _gridCellSize;
+    protected float _gridCellSizeX;
+    protected float _gridCellSizeY;
+
     protected Dictionary<Vector2Int, ChunkData<T>> _allChunks = new Dictionary<Vector2Int, ChunkData<T>>();
     protected Vector2Int _currentPlayerChunk;
     protected List<ChunkData<T>> _loadedChunks = new List<ChunkData<T>>();
@@ -36,7 +40,8 @@ public abstract class GridBase<T> : MonoBehaviour
     protected virtual void Awake()
     {
         _grid = GetComponent<Grid>();
-        _gridCellSize = _grid.cellSize.x;
+        _gridCellSizeX = _grid.cellSize.x;
+        _gridCellSizeY = _grid.cellSize.y;
     }
 
     protected virtual void UpdateChunks()
@@ -109,8 +114,8 @@ public abstract class GridBase<T> : MonoBehaviour
     protected virtual Vector2Int WorldToChunk(Vector3 worldPos)
     {
         Vector2Int ChunkPos = Vector2Int.zero;
-        ChunkPos.x = Mathf.FloorToInt(worldPos.x / (_chunkSize * _gridCellSize));
-        ChunkPos.y = Mathf.FloorToInt(worldPos.y / (_chunkSize * _gridCellSize));
+        ChunkPos.x = Mathf.FloorToInt(worldPos.x / (_chunkSizeX * _gridCellSizeX));
+        ChunkPos.y = Mathf.FloorToInt(worldPos.y / (_chunkSizeY * _gridCellSizeY));
 
         return ChunkPos;
     }
@@ -128,23 +133,34 @@ public abstract class GridBase<T> : MonoBehaviour
         _allChunks.Add(chunkCoords, chunkData);
     }
 
-    protected virtual void SetTileData(int tileX, int tileY, T tileData, bool loadChunk = false)
+    protected virtual void SetTileData(STileData<T>[] tileData)
     {
-        Debug.Log(tileX / _chunkSize);
+        foreach (var data in tileData)
+        {
+            SetTileData(data);
+        }
+    }
 
+    protected virtual void SetTileData(STileData<T> tileData)
+    {
+        SetTileData(tileData.tileX, tileData.tileY, tileData.tileData);
+    }
+
+    protected virtual void SetTileData(int tileX, int tileY, T tileData)
+    {
         Vector2Int chunkCoords = new Vector2Int();
 
-        chunkCoords.x = Mathf.FloorToInt(tileX / (float)_chunkSize);
-        chunkCoords.y = Mathf.FloorToInt(tileY / (float)_chunkSize);
+        chunkCoords.x = Mathf.FloorToInt(tileX / (float)_chunkSizeX);
+        chunkCoords.y = Mathf.FloorToInt(tileY / (float)_chunkSizeY);
 
-        int chunkTileX = tileX % _chunkSize;
-        int chunkTileY = tileY % _chunkSize;
+        int chunkTileX = tileX % _chunkSizeX;
+        int chunkTileY = tileY % _chunkSizeY;
 
         if (chunkTileX < 0)
-            chunkTileX = _chunkSize - 1 - Mathf.Abs(chunkTileX);
+            chunkTileX = _chunkSizeX - 1 - Mathf.Abs(chunkTileX);
 
         if (chunkTileY < 0)
-            chunkTileY = _chunkSize - 1 - Mathf.Abs(chunkTileY);
+            chunkTileY = _chunkSizeY - 1 - Mathf.Abs(chunkTileY);
 
         ChunkData<T> targetChunk = GetChunkAtPosition(chunkCoords);
         if (targetChunk == null)
@@ -154,9 +170,6 @@ public abstract class GridBase<T> : MonoBehaviour
         }
 
         targetChunk.SetTileData(chunkTileX, chunkTileY, tileData);
-        
-        if (loadChunk)
-            LoadChunk(targetChunk);
     }
 
     protected virtual void HandleNewPlayerPositionUpdate(Character character)

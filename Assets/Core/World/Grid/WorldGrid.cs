@@ -21,9 +21,14 @@ public class WorldGrid : GridBase<WorldTileData>
         _obstacleController = FindObjectOfType<GlobalObstacleController>();
     }
 
+    private void Start()
+    {
+        StartCoroutine(TestTileSpawning());
+    }
+
     protected override WorldTileData[,] CreateTileData(int chunkX, int chunkY)
     {
-        WorldTileData[,] tileData = new WorldTileData[_chunkSize, _chunkSize];
+        WorldTileData[,] tileData = new WorldTileData[_chunkSizeX, _chunkSizeY];
         TileBase chunkTile = null;
 
         switch (_worldType)
@@ -32,9 +37,9 @@ public class WorldGrid : GridBase<WorldTileData>
             case WorldType.ProceduralEmpty:
 
                 chunkTile = _tilePool[Random.Range(0, _tilePool.Length)];
-                for (int x = 0; x < _chunkSize; x++)
+                for (int x = 0; x < _chunkSizeX; x++)
                 {
-                    for (int y = 0; y < _chunkSize; y++)
+                    for (int y = 0; y < _chunkSizeY; y++)
                     {
                         WorldTileData data = new WorldTileData(chunkTile);
                         tileData[x, y] = data;
@@ -45,14 +50,14 @@ public class WorldGrid : GridBase<WorldTileData>
 
             case WorldType.ProceduralObstacles:
                 
-                TileBase[,] obstacleTiles = _obstacleController.GenerateObstaclesInChunk(_chunkSize, chunkX, chunkY);
+                TileBase[,] obstacleTiles = _obstacleController.GenerateObstaclesInChunk(_chunkSizeX, _chunkSizeY, chunkX, chunkY);
 
                 // TODO : Temporary random tile assigned on spawn
                 chunkTile = _tilePool[Random.Range(0, _tilePool.Length)];
 
-                for (int x = 0; x < _chunkSize; x++)
+                for (int x = 0; x < _chunkSizeX; x++)
                 {
-                    for (int y = 0; y < _chunkSize; y++)
+                    for (int y = 0; y < _chunkSizeY; y++)
                     {
                         WorldTileData data = new WorldTileData(chunkTile);
                         tileData[x, y] = data;
@@ -68,17 +73,16 @@ public class WorldGrid : GridBase<WorldTileData>
 
     protected override void LoadChunk(ChunkData<WorldTileData> chunkData)
     {
-        int size = _chunkSize;
-        Vector3Int[] tilePositions = new Vector3Int[_chunkSize * _chunkSize];
-        TileBase[] tiles = new TileBase[_chunkSize * _chunkSize];
+        Vector3Int[] tilePositions = new Vector3Int[_chunkSizeX * _chunkSizeY];
+        TileBase[] tiles = new TileBase[_chunkSizeX * _chunkSizeY];
 
         int i = 0;
-        for (int x = 0; x < size; x++)
+        for (int x = 0; x < _chunkSizeX; x++)
         {
-            for (int y = 0; y < size; y++)
+            for (int y = 0; y < _chunkSizeY; y++)
             {
-                tilePositions[i].x = chunkData.chunkX * size + x;
-                tilePositions[i].y = chunkData.chunkY * size + y;
+                tilePositions[i].x = chunkData.chunkX * _chunkSizeX + x;
+                tilePositions[i].y = chunkData.chunkY * _chunkSizeY + y;
                 tilePositions[i].z = 0;
 
                 tiles[i] = chunkData.tileData[x, y].worldTile;
@@ -95,14 +99,12 @@ public class WorldGrid : GridBase<WorldTileData>
         if (chunkData == null)
             return;
 
-        int size = _chunkSize;
-
-        for (int x = 0; x < size; x++)
+        for (int x = 0; x < _chunkSizeX; x++)
         {
-            for (int y = 0; y < size; y++)
+            for (int y = 0; y < _chunkSizeY; y++)
             {
-                int targetTileX = chunkData.chunkX * size + x;
-                int targetTileY = chunkData.chunkY * size + y;
+                int targetTileX = chunkData.chunkX * _chunkSizeX + x;
+                int targetTileY = chunkData.chunkY * _chunkSizeY + y;
 
                 _worldTilemap.SetTile(new Vector3Int(targetTileX, targetTileY), null);
 
@@ -119,14 +121,26 @@ public class WorldGrid : GridBase<WorldTileData>
         {
             yield return new WaitForSeconds(0.1f);
 
+            STileData<WorldTileData>[] newTileData = new STileData<WorldTileData>[20*20];
 
-            int x = Random.Range(-20, 20);
-            int y = Random.Range(-20, 20);
-            Debug.Log("Assigning data at : (" + x + "," + y + ")");
+            for (int x = 0; x < 20; x++)
+            {
+                for (int y = 0; y < 20; y++)
+                {
+                    STileData<WorldTileData> data = new STileData<WorldTileData>();
+                    data.tileX = x;
+                    data.tileY = y;
+                    data.tileData = new WorldTileData(_debugTile);
 
-            SetTileData(x, y, new WorldTileData(_debugTile), true);
+                    newTileData[x + y * 20] = data;
+                }
+            }
 
-            //execute = false;
+            SetTileData(newTileData);
+            //Debug.Log("Assigning data at : (" + x + "," + y + ")");
+            //SetTileData(x, y, new WorldTileData(_debugTile));
+
+            execute = false;
         }
     }
 }

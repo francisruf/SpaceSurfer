@@ -26,27 +26,27 @@ public class GlobalObstacleController : MonoBehaviour
         _currentOctaveOffsets = NoiseGenerator.GenerateOctaveOffsets(_noiseSettings.octaves);
     }
 
-    public TileBase[,] GenerateObstaclesInChunk(int chunkSize, int chunkX, int chunkY)
+    public TileBase[,] GenerateObstaclesInChunk(int chunkSizeX, int chunkSizeY, int chunkX, int chunkY)
     {
         if (_currentOctaveOffsets == null)
             GenerateOctaves();
 
         NoiseSettings settings = (NoiseSettings)ScriptableObject.CreateInstance(typeof(NoiseSettings));
-        settings.mapWidth = chunkSize;
-        settings.mapHeight = chunkSize;
+        settings.mapWidth = chunkSizeX;
+        settings.mapHeight = chunkSizeY;
         settings.octaves = _noiseSettings.octaves;
         settings.noiseScale = _noiseSettings.noiseScale;
         settings.persistance = _noiseSettings.persistance;
         settings.lacunarity = _noiseSettings.lacunarity;
 
-        Vector3Int gridOffset = new Vector3Int(chunkX * chunkSize, chunkY * chunkSize, 0);
+        Vector3Int gridOffset = new Vector3Int(chunkX * chunkSizeX, chunkY * chunkSizeY, 0);
 
         float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(settings, _currentOctaveOffsets, gridOffset, 0f, Vector2.zero, false);
-        TileBase[,] tiles = new TileBase[chunkSize, chunkSize];
+        TileBase[,] tiles = new TileBase[chunkSizeX, chunkSizeY];
 
-        for (int x = 0; x < chunkSize; x++)
+        for (int x = 0; x < chunkSizeX; x++)
         {
-            for (int y = 0; y < chunkSize; y++)
+            for (int y = 0; y < chunkSizeY; y++)
             {
                 tiles[x, y] = SelectTileByNoise(noiseMap[x,y]);
             }

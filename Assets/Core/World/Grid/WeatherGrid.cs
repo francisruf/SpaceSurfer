@@ -6,7 +6,7 @@ public class WeatherGrid : GridBase<WeatherTileData>
 {
     protected override WeatherTileData[,] CreateTileData(int chunkX, int chunkY)
     {
-        return new WeatherTileData[_chunkSize, _chunkSize];
+        return new WeatherTileData[_chunkSizeX, _chunkSizeY];
     }
 
     protected override void LoadChunk(ChunkData<WeatherTileData> chunkData)
