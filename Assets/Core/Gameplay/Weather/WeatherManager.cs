@@ -44,7 +44,7 @@ public class WeatherManager : MonoBehaviour
     {
         for (int i = 0; i < debugStartingWeather.Length; i++)
         {
-            debugStartingWeather[i].Initialize(_weatherGrid);
+            //debugStartingWeather[i].Initialize(_weatherGrid);
         }
     }
 }

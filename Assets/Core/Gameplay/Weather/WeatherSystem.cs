@@ -8,9 +8,9 @@ public class WeatherSystem : MonoBehaviour
     [SerializeField] protected bool _debug;
 
     protected bool _isEnabled;
-    protected LegacyWeatherGrid _weatherGrid;
+    protected WeatherGrid _weatherGrid;
     
-    public virtual void Initialize(LegacyWeatherGrid grid)
+    public virtual void Initialize(WeatherGrid grid)
     {
         _weatherGrid = grid;
     }

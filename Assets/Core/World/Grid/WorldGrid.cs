@@ -21,8 +21,9 @@ public class WorldGrid : GridBase<WorldTileData>
         _obstacleController = FindObjectOfType<GlobalObstacleController>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         StartCoroutine(TestTileSpawning());
     }
 

@@ -16,6 +16,8 @@ public class GlobalWind : WeatherSystem
     private Vector3Int _playerPositionOffset = Vector3Int.zero;
     private Vector2[] _currentOctaveOffsets;
     private float _time = 0.01f;
+    
+    Vector2Int[] _currentNoiseGridTiles;
 
     private void OnEnable()
     {
@@ -30,9 +32,10 @@ public class GlobalWind : WeatherSystem
     private void Awake()
     {
         _windRenderer = GetComponent<NoiseRenderer>();
+        _currentNoiseGridTiles = new Vector2Int[_noiseSettings.mapWidth * _noiseSettings.mapHeight];
     }
 
-    public override void Initialize(LegacyWeatherGrid grid)
+    public override void Initialize(WeatherGrid grid)
     {
         base.Initialize(grid);
 
@@ -48,10 +51,23 @@ public class GlobalWind : WeatherSystem
             return;
 
         float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, _playerPositionOffset, _time, _direction, false);
-
-        Vector3Int[] GridPositions = new Vector3Int[_noiseSettings.mapWidth * _noiseSettings.mapHeight];
-
         _time += Time.deltaTime * _windSpeed;
+
+        Vector2Int playerGridPos = _weatherGrid.WorldToGrid(_playerPositionOffset);
+        int xMin = playerGridPos.x - _noiseSettings.mapWidth / 2;
+        int xMax = playerGridPos.x + _noiseSettings.mapWidth / 2;
+        int yMin = playerGridPos.y - _noiseSettings.mapWidth / 2;
+        int yMax = playerGridPos.y + _noiseSettings.mapWidth / 2;
+
+        //for (int x = xMin; x < xMax; x++)
+        //{
+        //    for (int y = yMin; y < yMax; y++)
+        //    {
+        //        _currentNoiseGridTiles[x + y * _noiseSettings.mapWidth + y] = new Vector2Int(x, y);
+        //    }
+        //}
+
+        //_weatherGrid.SetWeatherSystem(_currentNoiseGridTiles, this);
 
         if (_debug)
             _windRenderer.RenderNoiseMapByColor(noiseMap, _noiseSettings, _playerPositionOffset);
@@ -68,6 +84,6 @@ public class GlobalWind : WeatherSystem
         //playerPosInt.y = Mathf.RoundToInt(playerPos.y / _weatherGrid.gridSize);
         //playerPosInt.z = 0;
 
-        _playerPositionOffset = _weatherGrid.WorldToGridPos(playerCharacter.transform.position);
+        _playerPositionOffset = (Vector3Int)_weatherGrid.WorldToGrid(playerCharacter.transform.position);
     }
 }
