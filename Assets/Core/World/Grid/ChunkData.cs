@@ -47,7 +47,6 @@ public class ChunkData<T>
     {
         if (x > lenghtX - 1 || y > lenghtY - 1 || x < 0 || y < 0)
         {
-            Debug.LogError("Attempted to get tile data outside of chunk bounds.");
             return default(T);
         }
         return tileData[x,y];

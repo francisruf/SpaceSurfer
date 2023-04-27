@@ -20,6 +20,7 @@ public abstract class GridBase<T> : MonoBehaviour
 
     // Components
     protected Grid _grid;
+    protected Character _playerCharacter;
 
     // Grid
     protected float _gridCellSizeX;
@@ -27,21 +28,56 @@ public abstract class GridBase<T> : MonoBehaviour
 
     protected Dictionary<Vector2Int, ChunkData<T>> _allChunks = new Dictionary<Vector2Int, ChunkData<T>>();
     protected Vector2Int _currentPlayerChunk;
+    protected T _currentPlayerTile;
     protected List<ChunkData<T>> _loadedChunks = new List<ChunkData<T>>();
 
+    protected List<IGridActor<T>> _registeredGridActors = new List<IGridActor<T>>();
+    protected int _registeredActorsCount;
 
     protected virtual void OnEnable()
     {
         Character.OnPlayerWorldPositionUpdate += HandleNewPlayerPositionUpdate;
+        Character.OnPlayerCharacterInstantiate += HandleNewPlayerCharacter;
     }
 
     protected virtual void OnDisable()
     {
         Character.OnPlayerWorldPositionUpdate -= HandleNewPlayerPositionUpdate;
+        Character.OnPlayerCharacterInstantiate -= HandleNewPlayerCharacter;
+    }
+
+    protected void HandleNewPlayerCharacter(Character player)
+    {
+        this._playerCharacter = player;
+    }
+
+    public void RegisterGridActor(IGridActor<T> newGridActor)
+    {
+        _registeredGridActors.Add(newGridActor);
+        _registeredActorsCount++;
+    }
+
+    public void UnregisterGridActor(IGridActor<T> newGridActor)
+    {
+        _registeredGridActors.Remove(newGridActor);
+        _registeredActorsCount--;
     }
 
     protected virtual void Start()
     {
+    }
+
+    protected virtual void Update()
+    {
+        if (_playerCharacter != null)
+            _currentPlayerTile = WorldToTile(_playerCharacter.transform.position);
+
+        for (int i = 0; i < _registeredActorsCount; i++)
+        {
+            Vector3 worldPos = _registeredGridActors[i].GetWorldPosition();
+            T tileData = WorldToTile(worldPos);
+            _registeredGridActors[i].AssignCurrentTileData(tileData);
+        }
     }
 
     protected virtual void Awake()

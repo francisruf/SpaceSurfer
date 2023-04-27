@@ -24,7 +24,6 @@ public class WorldGrid : GridBase<WorldTileData>
     protected override void Start()
     {
         base.Start();
-        StartCoroutine(TestTileSpawning());
     }
 
     protected override WorldTileData[,] CreateTileData(int chunkX, int chunkY)

@@ -12,6 +12,26 @@ public class WeatherGrid : GridBase<WeatherTileData>
         InitializeWeatherSystems();
     }
 
+    protected override void Update()
+    {
+        base.Update();
+    }
+
+    protected override void OnEnable()
+    {
+        Sail.onNewSail += HandleNewSail;
+    }
+
+    protected override void OnDisable()
+    {
+        Sail.onNewSail -= HandleNewSail;
+    }
+
+    private void HandleNewSail(IGridActor<WeatherTileData> sail)
+    {
+        RegisterGridActor(sail);
+    }
+
     private void InitializeWeatherSystems()
     {
         for (int i = 0; i < debugStartingWeather.Length; i++)

@@ -13,6 +13,7 @@ public class GlobalWind : WeatherSystem
     [SerializeField] private float _windSpeed = 1f;
 
     // Private variables
+    private float[,] _noiseMap;
     private Vector3Int _playerPositionOffset = Vector3Int.zero;
     private Vector2[] _currentOctaveOffsets;
     private float _time = 0.01f;
@@ -32,6 +33,7 @@ public class GlobalWind : WeatherSystem
     private void Awake()
     {
         _windRenderer = GetComponent<NoiseRenderer>();
+        _noiseMap = new float[_noiseSettings.mapWidth, _noiseSettings.mapHeight];
         _currentNoiseGridTiles = new Vector2Int[_noiseSettings.mapWidth * _noiseSettings.mapHeight];
     }
 
@@ -50,40 +52,36 @@ public class GlobalWind : WeatherSystem
         if (!_isEnabled)
             return;
 
-        float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, _playerPositionOffset, _time, _direction, false);
+        _noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, _playerPositionOffset, _time, _direction, false);
         _time += Time.deltaTime * _windSpeed;
 
         Vector2Int playerGridPos = _weatherGrid.WorldToGrid(_playerPositionOffset);
-        int xMin = playerGridPos.x - _noiseSettings.mapWidth / 2;
-        int xMax = playerGridPos.x + _noiseSettings.mapWidth / 2;
-        int yMin = playerGridPos.y - _noiseSettings.mapWidth / 2;
-        int yMax = playerGridPos.y + _noiseSettings.mapWidth / 2;
 
-        //for (int x = xMin; x < xMax; x++)
-        //{
-        //    for (int y = yMin; y < yMax; y++)
-        //    {
-        //        _currentNoiseGridTiles[x + y * _noiseSettings.mapWidth + y] = new Vector2Int(x, y);
-        //    }
-        //}
+        for (int x = 0; x < _noiseSettings.mapWidth; x++)
+        {
+            for (int y = 0; y < _noiseSettings.mapHeight; y++)
+            {
+                _currentNoiseGridTiles[x + y * _noiseSettings.mapWidth] = new Vector2Int(x + playerGridPos.x, y + playerGridPos.y);
+            }
+        }
 
-        //_weatherGrid.SetWeatherSystem(_currentNoiseGridTiles, this);
+        _weatherGrid.SetWeatherSystem(_currentNoiseGridTiles, this);
 
         if (_debug)
-            _windRenderer.RenderNoiseMapByColor(noiseMap, _noiseSettings, _playerPositionOffset);
+            _windRenderer.RenderNoiseMapByColor(_noiseMap, _noiseSettings, _playerPositionOffset);
     }
+
 
     private void HandlePlayerPositionUpdate(Character playerCharacter)
     {
         if (!_isEnabled)
             return;
-
-        //Vector3 playerPos = playerCharacter.transform.position;
-        //Vector3Int playerPosInt = new Vector3Int();
-        //playerPosInt.x = Mathf.RoundToInt(playerPos.x / _weatherGrid.gridSize);
-        //playerPosInt.y = Mathf.RoundToInt(playerPos.y / _weatherGrid.gridSize);
-        //playerPosInt.z = 0;
-
         _playerPositionOffset = (Vector3Int)_weatherGrid.WorldToGrid(playerCharacter.transform.position);
+    }
+
+    protected override WeatherModifier GetWeatherModifier(Vector3 worldPos)
+    {
+
+        return new WeatherModifier()
     }
 }

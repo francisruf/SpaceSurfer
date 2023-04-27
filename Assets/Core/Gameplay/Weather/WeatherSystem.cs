@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeatherSystem : MonoBehaviour
+public abstract class WeatherSystem : MonoBehaviour
 {
     [Header("Settings")]
     [SerializeField] protected bool _debug;
@@ -23,5 +23,19 @@ public class WeatherSystem : MonoBehaviour
     protected virtual void DisableSystem()
     {
         _isEnabled = false;
+    }
+
+    public abstract WeatherModifier GetWeatherModifier(Vector3 worldPos);
+}
+
+public struct WeatherModifier
+{
+    public float strength;
+    public Vector2 direction;
+
+    public WeatherModifier(float strength, Vector2 direction)
+    {
+        this.strength = strength;
+        this.direction = direction;
     }
 }

@@ -1,9 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Sail : MonoBehaviour
+public class Sail : MonoBehaviour, IGridActor<WeatherTileData>
 {
+    public static Action<IGridActor<WeatherTileData>> onNewSail;
+
+    private WeatherTileData _currentWeatherTile;
+    private List<WeatherSystem> _weatherSystems = new List<WeatherSystem>();
+    private List<WeatherModifier> _weatherModifiers = new List<WeatherModifier>();
+
+    public void AssignCurrentTileData(WeatherTileData tileData)
+    {
+        _currentWeatherTile = tileData;
+        _weatherSystems = tileData.GetWeatherSystems();
+
+        for (int i = 0; i < _weatherSystems.Count; i++)
+        {
+            _weatherModifiers.Add(_weatherSystems[i].GetWeatherModifier(this.transform.position));
+        }
+
+        for (int i = 0; i < _weatherModifiers.Count; i++)
+        {
+            Vector2 start = transform.position;
+            Vector2 end = transform.position + (Vector3)_weatherModifiers[i].direction * _weatherModifiers[i].strength;
+
+            Debug.DrawLine(start, end, Color.green, Time.deltaTime);
+        }
+    }
+
+    public Vector3 GetWorldPosition()
+    {
+        return this.transform.position;
+    }
+
     // Settings
     [SerializeField] private SailProperties _sailProperties;
 
@@ -22,6 +53,7 @@ public class Sail : MonoBehaviour
     private void Start()
     {
         ChangeSailState(ESailState.Closed);
+        onNewSail(this);
     }
 
     public void RequestSailOpen()
@@ -63,4 +95,5 @@ public class Sail : MonoBehaviour
                 return 0f;
         }
     }
+
 }

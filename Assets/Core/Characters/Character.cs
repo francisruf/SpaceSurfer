@@ -59,4 +59,9 @@ public abstract class Character : MonoBehaviour
             yield return new WaitForSeconds(0.1f);
         }
     }
+
+    public void AssignWeatherData()
+    {
+
+    }
 }
