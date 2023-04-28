@@ -17,16 +17,6 @@ public class WeatherGrid : GridBase<WeatherTileData>
         base.Update();
     }
 
-    protected override void OnEnable()
-    {
-        Sail.onNewSail += HandleNewSail;
-    }
-
-    protected override void OnDisable()
-    {
-        Sail.onNewSail -= HandleNewSail;
-    }
-
     private void HandleNewSail(IGridActor<WeatherTileData> sail)
     {
         RegisterGridActor(sail);
