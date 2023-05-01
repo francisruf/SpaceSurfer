@@ -6,11 +6,15 @@ using TMPro;
 
 public class Sail : MonoBehaviour, IWindAgent
 {
-    // Settings
+    [Header("Settings")]
     [SerializeField] private SailProperties _sailProperties;
-
+    
+    [Header("Debug")]
+    [SerializeField] private GameObject _windDebugPrefab;
+    
     // Components
     private Animator _animator;
+    private List<LineRenderer> _windDebugs = new List<LineRenderer>();
 
     // Internal logic
     private ESailState _sailState;
@@ -69,9 +73,35 @@ public class Sail : MonoBehaviour, IWindAgent
 
     public void WindUpdate(List<WindForce> windForces)
     {
-        foreach (var wind in windForces)
+        int activeRenderers = 0;
+
+        for (int i = 0; i < windForces.Count; i++)
         {
-            Debug.DrawLine(transform.position, transform.position + (Vector3)wind.direction * wind.strength * 2, Color.green, Time.deltaTime);
+            //Debug.DrawLine(transform.position, transform.position + (Vector3)windForces[i].direction * windForces[i].strength * 2, Color.green, Time.deltaTime);
+            
+            if (i >= _windDebugs.Count)
+            {
+                _windDebugs.Add(Instantiate(_windDebugPrefab, transform).GetComponent<LineRenderer>());
+            }
+
+            Vector3 end = transform.position + (Vector3)windForces[i].direction * windForces[i].strength * 2;
+            float dot = Vector2.Dot(transform.up, windForces[i].direction);
+            Color lineColor = Color.Lerp(Color.red, Color.green, dot);
+
+            _windDebugs[i].enabled = true;
+            _windDebugs[i].SetPosition(0, transform.position);
+            _windDebugs[i].SetPosition(1, end);
+            _windDebugs[i].startColor = lineColor;
+            _windDebugs[i].endColor = lineColor;
+
+            Debug.Log(dot);
+
+            activeRenderers++;
+        }
+
+        for (int i = activeRenderers; i < _windDebugs.Count; i++)
+        {
+            _windDebugs[i].enabled = false;
         }
     }
 

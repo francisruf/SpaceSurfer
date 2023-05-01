@@ -17,8 +17,6 @@ public class Wind_GlobalClouds : Wind_Base
     private Vector2[] _currentOctaveOffsets;
     private float _time = 0.01f;
 
-    Vector2Int[] _currentNoiseGridTiles;
-
     private void OnEnable()
     {
         Character.OnPlayerWorldPositionUpdate += HandlePlayerPositionUpdate;
@@ -33,7 +31,6 @@ public class Wind_GlobalClouds : Wind_Base
     {
         _windRenderer = GetComponent<NoiseRenderer>();
         _noiseMap = new float[_noiseSettings.mapWidth, _noiseSettings.mapHeight];
-        _currentNoiseGridTiles = new Vector2Int[_noiseSettings.mapWidth * _noiseSettings.mapHeight];
     }
 
     public override void Initialize(WindGrid grid)
@@ -51,13 +48,14 @@ public class Wind_GlobalClouds : Wind_Base
             return _windForces;
 
         _noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, _playerPositionOffset, _time, _direction, false);
+        Vector2 dir = _direction.normalized;
 
         for (int x = 0; x < _noiseSettings.mapWidth; x++)
         {
             for (int y = 0; y < _noiseSettings.mapHeight; y++)
             {
                 Vector2Int cellCoords = new Vector2Int(x - _noiseSettings.mapWidth / 2 + _playerPositionOffset.x, y - _noiseSettings.mapHeight / 2 + _playerPositionOffset.y);
-                _windForces.Add(new WindForce(cellCoords, _noiseMap[x, y], _direction));
+                _windForces.Add(new WindForce(cellCoords, _noiseMap[x, y], dir));
                 //_currentNoiseGridTiles[x + y * _noiseSettings.mapWidth] = new Vector2Int(x + playerGridPos.x, y + playerGridPos.y);
             }
         }
