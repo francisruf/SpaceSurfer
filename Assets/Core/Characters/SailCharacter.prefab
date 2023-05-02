@@ -72,7 +72,7 @@ MonoBehaviour:
   _playerCharacter: 1
   _startWithDebugEnabled: 1
   _defaultSailPrefab: {fileID: 830970843733471353, guid: 4b5d8c10faf5b6543861ecd2c6524cf7, type: 3}
-  _baseMoveSpeed: 1
+  _baseMoveSpeed: 2
   _rotationSpeed: 2
   _sailRotationType: 1
   _clampSailRotation: 1

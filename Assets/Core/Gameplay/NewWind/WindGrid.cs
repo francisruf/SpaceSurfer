@@ -156,13 +156,3 @@ public class WindGrid : MonoBehaviour
         Gizmos.DrawCube(Vector2.zero, new Vector3(width * grid.cellSize.x, height * grid.cellSize.y, 1f));
     }
 }
-
-
-[CustomEditor(typeof(WindGrid))]
-public class WindGridEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-    }
-}

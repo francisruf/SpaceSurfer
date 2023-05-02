@@ -83,14 +83,3 @@ public class LegacyWeatherGrid : MonoBehaviour
             Debug.DrawLine(tileWorldPos, tileWorldPos + (Vector3)(Vector2.up * 0.25f), Color.red, 1f);
     }
 }
-
-[CustomEditor(typeof(LegacyWeatherGrid))]
-public class WeatherGridEditor : Editor
-{
-    public override void OnInspectorGUI()
-    {
-        base.OnInspectorGUI();
-        LegacyWeatherGrid weatherGrid = (LegacyWeatherGrid)target;
-        weatherGrid.TilemapGrid.cellSize = new Vector3(weatherGrid.gridCellSize, weatherGrid.gridCellSize);
-    }
-}
