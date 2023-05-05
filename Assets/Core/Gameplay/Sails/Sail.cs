@@ -94,8 +94,6 @@ public class Sail : MonoBehaviour, IWindAgent
             _windDebugs[i].startColor = lineColor;
             _windDebugs[i].endColor = lineColor;
 
-            Debug.Log(dot);
-
             activeRenderers++;
         }
 
