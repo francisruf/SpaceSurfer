@@ -41,7 +41,7 @@ public class GlobalObstacleController : MonoBehaviour
 
         Vector3Int gridOffset = new Vector3Int(chunkX * chunkSizeX, chunkY * chunkSizeY, 0);
 
-        float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(settings, _currentOctaveOffsets, gridOffset, 0f, Vector2.zero, false);
+        float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(settings, _currentOctaveOffsets, gridOffset, 0f, Vector2.zero);
         TileBase[,] tiles = new TileBase[chunkSizeX, chunkSizeY];
 
         for (int x = 0; x < chunkSizeX; x++)
@@ -80,7 +80,7 @@ public class GlobalObstacleController : MonoBehaviour
         _currentOctaveOffsets = new Vector2[_noiseSettings.octaves];
         _currentOctaveOffsets = NoiseGenerator.GenerateOctaveOffsets(_noiseSettings.octaves);
 
-        float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, Vector3Int.zero, 0f, Vector2.zero, false);
+        float[,] noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, Vector3Int.zero, 0f, Vector2.zero);
         _debugObstacleRenderer.RenderNoiseMapByTile(noiseMap, _noiseSettings, Vector3Int.zero, _tiles);
     }
 

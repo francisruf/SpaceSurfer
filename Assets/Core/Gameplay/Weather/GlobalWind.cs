@@ -52,7 +52,7 @@ public class GlobalWind : WeatherSystem
         if (!_isEnabled)
             return;
 
-        _noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, _playerPositionOffset, _time, _direction, false);
+        _noiseMap = NoiseGenerator.GenerateNoiseMap(_noiseSettings, _currentOctaveOffsets, _playerPositionOffset, _time, _direction);
         _time += Time.deltaTime * _windSpeed;
 
         Vector2Int playerGridPos = _weatherGrid.WorldToGrid(_playerPositionOffset);

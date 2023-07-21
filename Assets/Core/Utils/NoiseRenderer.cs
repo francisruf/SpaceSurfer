@@ -7,8 +7,9 @@ public class NoiseRenderer : MonoBehaviour
 {
     [SerializeField] protected Tilemap _targetTileMap;
     [SerializeField] protected TileBase _defaultTile;
+    [SerializeField] protected ColorInterval[] _colorIntervals;
 
-    public virtual void RenderNoiseMapByColor(float[,] noiseMap, NoiseSettings settings, Vector3Int globalOffset)
+    public virtual void RenderNoiseMapByColor(float[,] noiseMap, NoiseSettings settings, Vector3Int globalOffset, bool useFixedIntervals = false)
     {
         _targetTileMap.ClearAllTiles();
 
@@ -36,8 +37,16 @@ public class NoiseRenderer : MonoBehaviour
         {
             for (int y = 0; y < mapHeight; y++)
             {
+                Color color;
+
+                if (useFixedIntervals)
+                    color = GetColorIntervalByNoiseValue(noiseMap[x, y]);
+                else
+                    color = GetColorByNoiseValue(noiseMap[x, y]);
+
                 _targetTileMap.SetTileFlags(new Vector3Int(x - mapHalfWidth, y - mapHalfHeight) + globalOffset, TileFlags.None);
-                _targetTileMap.SetColor(new Vector3Int(x - mapHalfWidth, y - mapHalfHeight) + globalOffset, GetColorByNoiseValue(noiseMap[x, y]));
+                
+                _targetTileMap.SetColor(new Vector3Int(x - mapHalfWidth, y - mapHalfHeight) + globalOffset, color);
             }
         }
     }
@@ -105,6 +114,21 @@ public class NoiseRenderer : MonoBehaviour
         return newColor;
     }
 
+    protected virtual Color GetColorIntervalByNoiseValue(float noiseValue)
+    {
+        Color newColor = Color.white;
+
+        foreach (var colorInterval in _colorIntervals)
+        {
+            if (noiseValue > colorInterval.value)
+            {
+                newColor = colorInterval.color;
+            }
+        }
+
+        return newColor;
+    }
+
     protected virtual TileBase SelectTileByNoise(float noiseValue)
     {
         return _defaultTile;
@@ -124,4 +148,18 @@ public class NoiseRenderer : MonoBehaviour
         }
         return null;
     }
+
+    [System.Serializable]
+    protected struct ColorInterval
+    {
+        public float value;
+        public Color color;
+
+        public ColorInterval(float value, Color color)
+        {
+            this.value = value;
+            this.color = color;
+        }
+    }
 }
+

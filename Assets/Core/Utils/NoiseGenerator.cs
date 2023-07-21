@@ -8,7 +8,7 @@ public static class NoiseGenerator
 {
     // TODO : Add overrides for static maps
 
-    public static float[,] GenerateNoiseMap(NoiseSettings settings, Vector2[] octaveOffsets, Vector3Int globalOffset, float time, Vector2 timeOffsetDirection, bool normalizeNoise)
+    public static float[,] GenerateNoiseMap(NoiseSettings settings, Vector2[] octaveOffsets, Vector3Int globalOffset, float time, Vector2 timeOffsetDirection, bool normalizeNoise = false)
     {
         float[,] noiseMap = new float[settings.mapWidth, settings.mapHeight];
         // Prevent division by 0
@@ -41,10 +41,10 @@ public static class NoiseGenerator
                     noiseHeight += perlinValue * amplitude;
 
                     if (noiseHeight < minNoiseHeight)
-                        minNoiseHeight = perlinValue;
+                        minNoiseHeight = noiseHeight;
 
                     else if (noiseHeight > maxNoiseHeight)
-                        maxNoiseHeight = perlinValue;
+                        maxNoiseHeight = noiseHeight;
 
                     // amplitude decreases each octave, since persistance should be less than 1
                     amplitude *= settings.persistance;
@@ -56,6 +56,7 @@ public static class NoiseGenerator
             }
         }
 
+        // TODO
         if (normalizeNoise)
         {
             for (int x = 0; x < settings.mapWidth; x++)
@@ -66,7 +67,6 @@ public static class NoiseGenerator
                 }
             }
         }
-
         return noiseMap;
     }
 
