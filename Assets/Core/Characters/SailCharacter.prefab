@@ -74,6 +74,83 @@ MonoBehaviour:
   _defaultSailPrefab: {fileID: 830970843733471353, guid: 4b5d8c10faf5b6543861ecd2c6524cf7, type: 3}
   _baseMoveSpeed: 2
   _rotationSpeed: 2
+  _accelerationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -4.364131
+      outSlope: -4.364131
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.21908055
+    - serializedVersion: 3
+      time: 0.07030727
+      value: 0.6503787
+      inSlope: -1.325849
+      outSlope: -1.325849
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3528778
+      outWeight: 0.18409953
+    - serializedVersion: 3
+      time: 0.24557123
+      value: 0.54721045
+      inSlope: -0.1298392
+      outSlope: -0.1298392
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.12022689
+    - serializedVersion: 3
+      time: 1
+      value: 0.5
+      inSlope: -0.05000003
+      outSlope: -0.05000003
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.15857707
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _dragCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.44897968
+      outSlope: 0.44897968
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.13116306
+    - serializedVersion: 3
+      time: 0.6407902
+      value: 0.44927087
+      inSlope: 1.3192751
+      outSlope: 1.3192751
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1.7741872
+      outSlope: 1.7741872
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.14802888
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _maxSpeedPerSecond: 10
+  _baseAccelerationRate: 1.53
   _sailRotationType: 1
   _clampSailRotation: 1
   _sailRotationSpeed: 140

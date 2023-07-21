@@ -14,7 +14,6 @@ public class DebugManager : MonoBehaviour
 
     // Components
     private Canvas _debugCanvas;
-    public TextMeshProUGUI _windDirectionText;
     public TextMeshProUGUI _characterDataText;
 
     // Internal logic
@@ -67,15 +66,5 @@ public class DebugManager : MonoBehaviour
 
         if (_playerCharacter != null)
             _characterDataText.text = _playerCharacter.GetCharacterDebugData();
-    }
-
-    // TODO : This should read the value of WindController instead of assigning it.
-    public void HandleWindSliderUpdate(System.Single sliderValue)
-    {
-        _debugWindDirection = (int)sliderValue % 360;
-        _windDirectionText.text = "Wind : " + _debugWindDirection.ToString();
-
-        if (OnWindDirectionRequest != null)
-            OnWindDirectionRequest(_debugWindDirection);
     }
 }

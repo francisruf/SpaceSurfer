@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e82a96b022cff4c98c44f0e656a91e, type: 3}
   m_Name: NoiseSettings_DebugGlobalWind
   m_EditorClassIdentifier: 
-  mapWidth: 44
-  mapHeight: 28
+  mapWidth: 50
+  mapHeight: 36
   octaves: 4
-  noiseScale: {x: 26.2, y: 22.05}
-  persistance: 0.086
-  lacunarity: 1.04
+  noiseScale: {x: 45.2, y: 23.7}
+  persistance: 0.157
+  lacunarity: 0.94

@@ -118,5 +118,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 208d14c96a1ff754789a8d12e7ef366f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _sailProperties: {fileID: 11400000, guid: 47677d868664ae34c95299c828f753d6, type: 2}
+  _closedSpeed: 0
+  _raisedSpeedMultiplier: 0.25
+  _extendedSpeedMultiplier: 1
+  _negativeDirectionRatio: 0.25
+  _debugForces: 1
   _windDebugPrefab: {fileID: 5310295734419149395, guid: a1d3d2fd2f66caa44808856b22707ff9, type: 3}

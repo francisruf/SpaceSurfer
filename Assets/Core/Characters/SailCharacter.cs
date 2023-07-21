@@ -21,13 +21,26 @@ public class SailCharacter : Character
     [Header("Movement")]
     [SerializeField] float _baseMoveSpeed = 5f;
     [SerializeField] float _rotationSpeed = 5f;
+    [SerializeField] AnimationCurve _accelerationCurve;
+    [SerializeField] AnimationCurve _dragCurve;
+    [SerializeField] float _maxSpeedPerSecond = 10f;
+
 
     // Movement logic
     private Vector2 _targetDirection = Vector2.up;
     private Vector2 _targetPosition;
     private Vector2 _baseMoveVector;
-    private Vector2 _sailMoveVector;
     private Vector2[] _modifiersMoveVector = new Vector2[10];
+
+    private Vector2 _sailMoveVector;
+    private float _velocity;
+    private float _targetVelocity;
+    private float _acceleration;
+    [SerializeField] private float _baseAccelerationRate = 5f;
+    [SerializeField] private float _baseDecelerationRate = 5f;
+
+    private float _drag;
+
 
     // Sail logic
     private Sail _currentSail;
@@ -62,13 +75,14 @@ public class SailCharacter : Character
 
     private void FixedUpdate()
     {
-        AssignBaseMovementForce();
-        //AssignSailMovementForce();
+        //AssignBaseMovementForce();
+        AssignSailMovementForce();
         //AssignDebugForces();
 
         RotateCharacter();
-        MoveCharacter();
+        //MoveCharacter();
         RotateSail();
+        AssignVelocity();
     }
 
     public override void RequestMove(Vector2 direction)
@@ -78,8 +92,6 @@ public class SailCharacter : Character
 
         _targetDirection = direction;
     }
-
-
 
     private void RotateCharacter()
     {
@@ -109,7 +121,6 @@ public class SailCharacter : Character
         _targetSailDirection = -direction;
 
     }
-
 
     private void RotateSail()
     {
@@ -166,6 +177,63 @@ public class SailCharacter : Character
         _rigidbody.MovePosition(_targetPosition);
     }
 
+    private void AssignVelocity()
+    {
+        // Fuck off
+
+
+        float windForce = _sailMoveVector.magnitude;
+
+        _acceleration = _baseAccelerationRate * windForce * _accelerationCurve.Evaluate(GetSafeAlpha(_velocity, windForce));
+
+        if (windForce > _targetVelocity)
+            _targetVelocity = windForce;
+
+        else
+            _targetVelocity = Mathf.Clamp(_targetVelocity - (_targetVelocity / _baseDecelerationRate * Time.fixedDeltaTime), 0f, _maxSpeedPerSecond);
+
+        _velocity = Mathf.Clamp(_velocity + (_acceleration * Time.fixedDeltaTime), 0f, _targetVelocity);
+
+
+
+
+
+        // drag goes up by 1 unit per second.
+
+        //if (Mathf.Approximately(_sailMoveVector.magnitude, 0f))
+        //    _acceleration = 0f;
+
+        //else
+        //{
+        //    //_acceleration = 1f * Time.fixedDeltaTime;
+        //    _acceleration = _accelerationCurve.Evaluate(Mathf.Clamp(GetSafeAlpha(_velocity, _targetVelocity), 0f, 1f)) * Time.fixedDeltaTime;
+        //}
+
+        //if (_sailMoveVector.magnitude > _targetVelocity)
+        //    _targetVelocity = _sailMoveVector.magnitude;
+
+        //else
+        //    _targetVelocity -= _drag;
+
+        //_targetVelocity = Mathf.Clamp(_targetVelocity, 0.01f, _maxSpeedPerSecond);
+
+        //_drag = _targetVelocity * _dragCurve.Evaluate(Mathf.Clamp(GetSafeAlpha(_velocity, _targetVelocity), 0f, 1f)) * Time.fixedDeltaTime;
+
+
+        //_velocity = Mathf.Clamp(_velocity + _acceleration - _drag, 0f, _targetVelocity);
+
+        _targetPosition = transform.position + transform.up * _velocity * Time.fixedDeltaTime;
+        _rigidbody.MovePosition(_targetPosition);
+    }
+
+    private float GetSafeAlpha(float a, float b)
+    {
+        if (Mathf.Approximately(b, 0f))
+            return 0f;
+
+        else return a / b;
+    }
+
     private void DrawTargetRotation()
     {
         //Debug.DrawLine(transform.position, transform.position + (Vector3)_targetDirection, Color.red);
@@ -205,6 +273,12 @@ public class SailCharacter : Character
     public override string GetCharacterDebugData()
     {
         string characterData = "<size=150%>Sail Character</size>";
+        characterData += "\nVelocity : " + _velocity.ToString("F3");
+        characterData += "\nTarget velocity " + _targetVelocity.ToString("F3");
+        characterData += "\nAccel curve : " + Mathf.Clamp(GetSafeAlpha(_velocity, _targetVelocity), 0f, 1f).ToString("F3");
+        characterData += "\nSail force : " + _sailMoveVector.magnitude.ToString("F3");
+        characterData += "\nAcceleration : " + _acceleration.ToString("F3");
+        characterData += "\nDrag : " + _drag.ToString("F3");
         characterData += "\nTarget Sail Angle : " + _targetSailAngle;
         return characterData;
     }

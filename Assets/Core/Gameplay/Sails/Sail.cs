@@ -7,9 +7,14 @@ using TMPro;
 public class Sail : MonoBehaviour, IWindAgent
 {
     [Header("Settings")]
-    [SerializeField] private SailProperties _sailProperties;
-    
+    //[SerializeField] private SailProperties _sailProperties;
+    [SerializeField] private float _closedSpeed;
+    [SerializeField] private float _raisedSpeedMultiplier;
+    [SerializeField] private float _extendedSpeedMultiplier;
+    [SerializeField] private float _negativeDirectionRatio = 0.25f;
+
     [Header("Debug")]
+    [SerializeField] private bool _debugForces;
     [SerializeField] private GameObject _windDebugPrefab;
     
     // Components
@@ -19,6 +24,7 @@ public class Sail : MonoBehaviour, IWindAgent
     // Internal logic
     private ESailState _sailState;
     public ESailState SailState { get { return _sailState; } }
+    private float _currentWindForce;
 
     private void Awake()
     {
@@ -53,7 +59,7 @@ public class Sail : MonoBehaviour, IWindAgent
 
     public Vector2 GetMoveVector()
     {
-        return transform.up* GetCurrentSpeed() * Time.fixedDeltaTime;
+        return transform.up * GetCurrentSpeed();
     }
 
     private float GetCurrentSpeed()
@@ -61,11 +67,11 @@ public class Sail : MonoBehaviour, IWindAgent
         switch (_sailState)
         {
             case ESailState.Closed:
-                return _sailProperties.closedSpeed;
+                return _closedSpeed;
             case ESailState.Raised:
-                return _sailProperties.raisedSpeed;
+                return _raisedSpeedMultiplier * _currentWindForce;
             case ESailState.Extended:
-                return _sailProperties.extendedSpeed;
+                return _extendedSpeedMultiplier * _currentWindForce;
             default:
                 return 0f;
         }
@@ -73,19 +79,55 @@ public class Sail : MonoBehaviour, IWindAgent
 
     public void WindUpdate(List<WindForce> windForces)
     {
+        _currentWindForce = 0f;
+        List<float> forces = new List<float>();
+
+        // Calculate if sail direction matches wind direction
+        for (int i = 0; i < windForces.Count; i++)
+        { 
+            float force;
+            float dot = Vector2.Dot(transform.up, windForces[i].direction);
+
+            if (dot < 0f)
+            {
+                force = dot * windForces[i].strength * _negativeDirectionRatio;
+            }
+            else
+            {
+                force = dot * windForces[i].strength;
+            }
+            forces.Add(force);
+        }
+        forces.Sort(new ReverseSort());
+
+        float multiplier = 1f;
+
+        for (int i = 0; i < forces.Count; i++)
+        {
+            forces[i] *= multiplier;
+            _currentWindForce += forces[i];
+            multiplier /= 2f;
+        }
+
+        if (_debugForces)
+            DrawDebugWindForces(windForces);
+    }
+
+
+    private void DrawDebugWindForces(List<WindForce> windForces)
+    {
         int activeRenderers = 0;
 
         for (int i = 0; i < windForces.Count; i++)
         {
-            //Debug.DrawLine(transform.position, transform.position + (Vector3)windForces[i].direction * windForces[i].strength * 2, Color.green, Time.deltaTime);
-            
+            float dot = Vector2.Dot(transform.up, windForces[i].direction);
+
             if (i >= _windDebugs.Count)
             {
                 _windDebugs.Add(Instantiate(_windDebugPrefab, transform).GetComponent<LineRenderer>());
             }
-
             Vector3 end = transform.position + (Vector3)windForces[i].direction * windForces[i].strength * 2;
-            float dot = Vector2.Dot(transform.up, windForces[i].direction);
+
             Color lineColor = Color.Lerp(Color.red, Color.green, dot);
 
             _windDebugs[i].enabled = true;
@@ -101,10 +143,27 @@ public class Sail : MonoBehaviour, IWindAgent
         {
             _windDebugs[i].enabled = false;
         }
+
     }
+
 
     public Vector3 GetWorldPosition()
     {
         return transform.position;
     }
+
+
+    public class ReverseSort : IComparer<float>
+    {
+        public int Compare(float a, float b)
+        {
+            if (a >= b)
+                return -1;
+            if (Mathf.Approximately(a, b))
+                return 0;
+
+            return 1;
+        }
+    }
 }
+
