@@ -37,18 +37,19 @@ public class DebugManager : MonoBehaviour
     private void Awake()
     {
         _debugCanvas = GetComponentInChildren<Canvas>();
-        _debugCanvas.enabled = _enableAtStart;
+        ToggleDebug(_enableAtStart);
     }
+
+    private void ToggleDebug(bool isEnabled)
+    {
+        _debugCanvas.enabled = isEnabled;
+        _debugEnabled = isEnabled;
+    }
+
 
     private void HandleNewPlayerCharacter(Character character)
     {
         _playerCharacter = character;
-    }
-
-    private void ToggleDebugCanvas(bool enableDebug)
-    {
-        _debugEnabled = enableDebug;
-        _debugCanvas.enabled = enableDebug;
     }
 
 
@@ -59,7 +60,7 @@ public class DebugManager : MonoBehaviour
             _playerCharacter?.ToggleDebug();
 
         if (Input.GetKeyDown(KeyCode.F12))
-            ToggleDebugCanvas(!_debugEnabled);
+            ToggleDebug(!_debugEnabled);
 
         if (!_debugEnabled)
             return;

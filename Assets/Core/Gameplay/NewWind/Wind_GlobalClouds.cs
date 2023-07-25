@@ -12,6 +12,9 @@ public class Wind_GlobalClouds : Wind_Base
     [SerializeField] private float _scrollSpeed = 1f;
     [SerializeField] private AnimationCurve _noiseToWindCurve;
 
+    [Header("Debug")]
+    [SerializeField] private NoiseRenderMode _noiseRenderMode;
+
     // Private variables
     private float[,] _noiseMap;
     private Vector3Int _playerPositionOffset = Vector3Int.zero;
@@ -61,7 +64,7 @@ public class Wind_GlobalClouds : Wind_Base
         }
 
         if (_debug)
-            _windRenderer.RenderNoiseMapByColor(_noiseMap, _noiseSettings, _playerPositionOffset, true);
+            _windRenderer.RenderNoiseMapByColor(_noiseMap, _noiseSettings, _playerPositionOffset, _noiseRenderMode);
 
         return _windForces;
     }

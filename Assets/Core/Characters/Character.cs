@@ -16,6 +16,7 @@ public abstract class Character : MonoBehaviour
     protected bool _debugEnabled = false;
 
     public abstract void RequestMove(Vector2 direction);
+    
     public virtual void ToggleDebug()
     {
         _debugEnabled = !_debugEnabled;
@@ -43,8 +44,10 @@ public abstract class Character : MonoBehaviour
             if (OnPlayerCharacterInstantiate != null)
                 OnPlayerCharacterInstantiate(this);
 
-            _debugEnabled = _startWithDebugEnabled;
             StartCoroutine(UpdateWorldPosition());
+
+            if (_startWithDebugEnabled)
+                ToggleDebug();
         }
     }
 

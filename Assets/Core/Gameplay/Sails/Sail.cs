@@ -14,7 +14,7 @@ public class Sail : MonoBehaviour, IWindAgent
     [SerializeField] private float _negativeDirectionRatio = 0.25f;
 
     [Header("Debug")]
-    [SerializeField] private bool _debugForces;
+    private bool _debugForces;
     [SerializeField] private GameObject _windDebugPrefab;
     
     // Components
@@ -113,6 +113,14 @@ public class Sail : MonoBehaviour, IWindAgent
             DrawDebugWindForces(windForces);
     }
 
+    public void ToggleDebug(bool toggleON)
+    {
+        _debugForces = toggleON;
+        foreach (var renderer in _windDebugs)
+        {
+            renderer.enabled = false;
+        }
+    }
 
     private void DrawDebugWindForces(List<WindForce> windForces)
     {

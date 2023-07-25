@@ -9,7 +9,7 @@ public class NoiseRenderer : MonoBehaviour
     [SerializeField] protected TileBase _defaultTile;
     [SerializeField] protected ColorInterval[] _colorIntervals;
 
-    public virtual void RenderNoiseMapByColor(float[,] noiseMap, NoiseSettings settings, Vector3Int globalOffset, bool useFixedIntervals = false)
+    public virtual void RenderNoiseMapByColor(float[,] noiseMap, NoiseSettings settings, Vector3Int globalOffset, NoiseRenderMode noiseRenderMode = NoiseRenderMode.NoiseValue)
     {
         _targetTileMap.ClearAllTiles();
 
@@ -39,13 +39,23 @@ public class NoiseRenderer : MonoBehaviour
             {
                 Color color;
 
-                if (useFixedIntervals)
-                    color = GetColorIntervalByNoiseValue(noiseMap[x, y]);
-                else
-                    color = GetColorByNoiseValue(noiseMap[x, y]);
+                switch (noiseRenderMode)
+                {
+                    case NoiseRenderMode.NoiseValue:
+                        color = GetColorByNoiseValue(noiseMap[x, y]);
+                        break;
+                    case NoiseRenderMode.LerpWithNoiseValue:
+                        color = GetColorByNoiseValue(noiseMap[x, y], 0.0f, 0.7f);
+                        break;
+                    case NoiseRenderMode.ColorIntervals:
+                        color = GetColorIntervalByNoiseValue(noiseMap[x, y]);
+                        break;
+                    default:
+                        color = Color.white;
+                        break;
+                }
 
                 _targetTileMap.SetTileFlags(new Vector3Int(x - mapHalfWidth, y - mapHalfHeight) + globalOffset, TileFlags.None);
-                
                 _targetTileMap.SetColor(new Vector3Int(x - mapHalfWidth, y - mapHalfHeight) + globalOffset, color);
             }
         }
@@ -114,6 +124,13 @@ public class NoiseRenderer : MonoBehaviour
         return newColor;
     }
 
+    protected virtual Color GetColorByNoiseValue(float noiseValue, float min, float max)
+    {
+        Color newColor = Color.white;
+        newColor.a = Mathf.Lerp(min, max, noiseValue);
+        return newColor;
+    }
+
     protected virtual Color GetColorIntervalByNoiseValue(float noiseValue)
     {
         Color newColor = Color.white;
@@ -161,5 +178,12 @@ public class NoiseRenderer : MonoBehaviour
             this.color = color;
         }
     }
+}
+
+public enum NoiseRenderMode
+{
+    NoiseValue,
+    LerpWithNoiseValue,
+    ColorIntervals
 }
 
