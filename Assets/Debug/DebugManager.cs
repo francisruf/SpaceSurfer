@@ -1,20 +1,23 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
 
 public class DebugManager : MonoBehaviour
 {
     public static Action<int> OnWindDirectionRequest;
 
+    public static DebugManager instance;
+
     // Properties
     [SerializeField] private bool _enableAtStart;
 
     // Components
-    private Canvas _debugCanvas;
-    public TextMeshProUGUI _characterDataText;
+    [SerializeField] private Canvas _debugCanvas;
+    [SerializeField] private Canvas _notificationCanvas;
+
+    [SerializeField] private TextMeshProUGUI _characterDataText;
+    [SerializeField] private TextMeshProUGUI _notificationText;
 
     // Internal logic
     // TODO : Move this to the controller
@@ -23,6 +26,10 @@ public class DebugManager : MonoBehaviour
 
     // Game references
     private Character _playerCharacter;
+
+    // Notification
+    private IEnumerator currentNotification;
+
 
     private void OnEnable()
     {
@@ -36,7 +43,11 @@ public class DebugManager : MonoBehaviour
 
     private void Awake()
     {
-        _debugCanvas = GetComponentInChildren<Canvas>();
+        if (instance != null && instance != this)
+            Destroy(this.gameObject);
+        else
+            instance = this;
+
         ToggleDebug(_enableAtStart);
     }
 
@@ -46,12 +57,10 @@ public class DebugManager : MonoBehaviour
         _debugEnabled = isEnabled;
     }
 
-
     private void HandleNewPlayerCharacter(Character character)
     {
         _playerCharacter = character;
     }
-
 
     // TODO : Move this to the player controller
     private void Update()
@@ -67,5 +76,31 @@ public class DebugManager : MonoBehaviour
 
         if (_playerCharacter != null)
             _characterDataText.text = _playerCharacter.GetCharacterDebugData();
+    }
+
+    public void RequestNotification(string notification, float duration = 3f)
+    {
+        if (currentNotification != null)
+            StopCoroutine(currentNotification);
+
+        currentNotification = ShowNotification(notification, duration);
+        StartCoroutine(currentNotification);
+    }
+
+    private IEnumerator ShowNotification(string notification, float duration)
+    {
+        float timer = 0f;
+
+        _notificationCanvas.enabled = true;
+        _notificationText.text = notification;
+
+        while (timer < duration)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+        }
+
+        _notificationCanvas.enabled = false;
+        currentNotification = null;
     }
 }

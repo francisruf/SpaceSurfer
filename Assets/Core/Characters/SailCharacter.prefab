@@ -9,11 +9,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 376300406788541561}
+  - component: {fileID: 984010337865492948}
   - component: {fileID: 7043103061153276736}
   - component: {fileID: 376300406788541562}
   - component: {fileID: 376300406788541560}
   - component: {fileID: 9166102413943439545}
-  m_Layer: 0
+  - component: {fileID: 7212094164566716697}
+  m_Layer: 10
   m_Name: SailCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -27,6 +29,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 376300406788541567}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -34,8 +37,42 @@ Transform:
   m_Children:
   - {fileID: 2526561570643275387}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!70 &984010337865492948
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376300406788541567}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0.015}
+  m_Size: {x: 0.16, y: 0.58}
+  m_Direction: 0
 --- !u!50 &7043103061153276736
 Rigidbody2D:
   serializedVersion: 4
@@ -53,6 +90,12 @@ Rigidbody2D:
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
@@ -110,6 +153,53 @@ MonoBehaviour:
   _maxSpeedPerSecond: 10
   _baseAccelerationRate: 0.15
   _baseDecelerationRate: 5
+  _sailAttachPoint: {fileID: 0}
+  _impactCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.00068009924
+      value: 1.0023077
+      inSlope: 0.0044374685
+      outSlope: 0.0044374685
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.36056626
+    - serializedVersion: 3
+      time: 0.34373283
+      value: 0.91255784
+      inSlope: -0.6471028
+      outSlope: -0.6471028
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.19225416
+    - serializedVersion: 3
+      time: 0.6260258
+      value: 0.29606974
+      inSlope: -1.9147917
+      outSlope: -1.9147917
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1.0006235
+      value: 0.0017194822
+      inSlope: -0.05075946
+      outSlope: -0.05075946
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _impactDurationModifier: 0.75
+  _impactPeakModifier: 1
+  _impactMaxVelocityLoss: 0.9
+  _impactMaxVelocityLossThreshold: 5
   _sailRotationType: 1
   _clampSailRotation: 1
   _sailRotationSpeed: 140
@@ -219,6 +309,18 @@ MonoBehaviour:
   m_DefaultActionMap: SailCharacter
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!210 &7212094164566716697
+SortingGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 376300406788541567}
+  m_Enabled: 1
+  m_SortingLayerID: 1154028463
+  m_SortingLayer: 1
+  m_SortingOrder: 1
+  m_SortAtRoot: 0
 --- !u!1 &3244237109022199161
 GameObject:
   m_ObjectHideFlags: 0
@@ -229,7 +331,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2526561570643275387}
   - component: {fileID: 2149098310354024445}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Board
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -243,13 +345,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3244237109022199161}
+  serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 376300406788541561}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2149098310354024445
 SpriteRenderer:
@@ -289,8 +391,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -2017528189
-  m_SortingLayer: 2
+  m_SortingLayerID: 1154028463
+  m_SortingLayer: 1
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 73a620668ab9b284197e489156678486, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -302,4 +404,4 @@ SpriteRenderer:
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
-  m_SpriteSortPoint: 0
+  m_SpriteSortPoint: 1

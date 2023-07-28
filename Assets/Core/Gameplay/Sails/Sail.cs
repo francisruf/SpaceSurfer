@@ -28,7 +28,7 @@ public class Sail : MonoBehaviour, IWindAgent
 
     private void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()

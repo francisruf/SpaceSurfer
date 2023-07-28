@@ -10,7 +10,7 @@ public enum ESailRotationType
 }
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class SailCharacter : Character
+public class SailCharacter : Character, IImpactable
 {
     [Header("Prefabs")]
     [SerializeField] private GameObject _defaultSailPrefab;
@@ -23,22 +23,32 @@ public class SailCharacter : Character
     [SerializeField] float _rotationSpeed = 5f;
     [SerializeField] AnimationCurve _accelerationCurve;
     [SerializeField] float _maxSpeedPerSecond = 10f;
-
+    [SerializeField] private float _baseAccelerationRate = 5f;
+    [SerializeField] private float _baseDecelerationRate = 5f;
 
     // Movement logic
     private Vector2 _targetDirection = Vector2.up;
     private Vector2 _targetPosition;
     private Vector2 _sailMoveVector;
-    private float _velocity;
-    private float _targetVelocity;
+    private Vector3 _windDisplacement;
+    private Vector3 _targetWindDisplacement;
     private float _acceleration;
-    [SerializeField] private float _baseAccelerationRate = 5f;
-    [SerializeField] private float _baseDecelerationRate = 5f;
+    private Vector2[] _modifiers = new Vector2[5];
 
     // Sail logic
+    [SerializeField] private Transform _sailAttachPoint;
     private Sail _currentSail;
     private float _targetSailAngle;
     private float _targetSailDirection;
+
+    [Header("Impacts")]
+    [SerializeField] private AnimationCurve _impactCurve;
+    [SerializeField] private float _impactDurationModifier = 1f;
+    [SerializeField] private float _impactPeakModifier = 1f;
+    [Range(0f, 1f)]
+    [SerializeField] private float _impactMaxVelocityLoss = 1f;
+    [SerializeField] private float _impactMaxVelocityLossThreshold = 2f;
+
 
     [Header("Debug")]
     [SerializeField] private ESailRotationType _sailRotationType;
@@ -66,10 +76,10 @@ public class SailCharacter : Character
 
     private void FixedUpdate()
     {
-        AssignSailMovementForce();
         RotateCharacter();
         RotateSail();
-        AssignVelocity();
+        AssignWindForce();
+        AssignGlobalVelocity();
     }
 
     public override void ToggleDebug()
@@ -130,32 +140,75 @@ public class SailCharacter : Character
         _currentSail.transform.localRotation = Quaternion.Euler(0f, 0f, _targetSailAngle);
     }
 
-    private void AssignSailMovementForce()
+    private void AssignWindForce()
     {
         if (_currentSail == null)
             return;
 
         _sailMoveVector = _currentSail.GetMoveVector();
-    }
-
-    private void AssignVelocity()
-    {
-        // Fuck off
-
-
         float windForce = _sailMoveVector.magnitude;
 
-        _acceleration = _baseAccelerationRate * windForce * _accelerationCurve.Evaluate(GetSafeAlpha(_velocity, windForce));
+        _acceleration = _baseAccelerationRate * windForce * _accelerationCurve.Evaluate(GetSafeAlpha(_windDisplacement.magnitude, windForce));
 
-        if (windForce > _targetVelocity)
-            _targetVelocity = windForce;
+        if (windForce > _targetWindDisplacement.magnitude)
+            _targetWindDisplacement = transform.up * windForce;
 
         else
-            _targetVelocity = Mathf.Clamp(_targetVelocity - (_targetVelocity / _baseDecelerationRate * Time.fixedDeltaTime), 0f, _maxSpeedPerSecond);
+        {
+            _targetWindDisplacement = transform.up * Mathf.Clamp(_targetWindDisplacement.magnitude - 
+                (_targetWindDisplacement.magnitude / _baseDecelerationRate * Time.fixedDeltaTime), 0f, _maxSpeedPerSecond);
+        }
+            
 
-        _velocity = Mathf.Clamp(_velocity + (_acceleration * Time.fixedDeltaTime), 0f, _targetVelocity);
+        _windDisplacement = transform.up * Mathf.Clamp(_windDisplacement.magnitude + (_acceleration * Time.fixedDeltaTime), 0f, _targetWindDisplacement.magnitude);
+    }
 
-        _targetPosition = transform.position + transform.up * _velocity * Time.fixedDeltaTime;
+    private int GetNextModifierSlot(out bool success)
+    {
+        int index = 0;
+        success = false;
+        for (int i = 0; i < _modifiers.Length; i++)
+        {
+            if (Mathf.Approximately(_modifiers[i].magnitude, 0f))
+            {
+                index = i;
+                success = true;
+                break;
+            }
+        }
+        return index;
+    }
+
+    private IEnumerator AddModifierForce(float duration, float peakForce, Vector2 direction, AnimationCurve modifierCurve)
+    {
+        bool freeModifierSlot = false;
+        int index = GetNextModifierSlot(out freeModifierSlot);
+
+        if (!freeModifierSlot)
+            yield return null;
+        
+        else
+        {
+            float time = 0f;
+            
+            while(time < duration)
+            {
+                _modifiers[index] = direction.normalized * (modifierCurve.Evaluate(time / duration) * peakForce * Time.fixedDeltaTime);
+                time += Time.fixedDeltaTime;
+                yield return new WaitForFixedUpdate();
+            }
+
+            _modifiers[index] = Vector2.zero;
+        }
+    }
+
+    private void AssignGlobalVelocity()
+    {
+        _targetPosition = transform.position + _windDisplacement * Time.fixedDeltaTime;
+        
+        foreach (var modifier in _modifiers)
+            _targetPosition += modifier;
+
         _rigidbody.MovePosition(_targetPosition);
     }
 
@@ -175,7 +228,8 @@ public class SailCharacter : Character
 
     private void SpawnDefaultSail()
     {
-        Sail defaultSail = Instantiate(_defaultSailPrefab, transform).GetComponent<Sail>();
+        Transform spawnTransform = _sailAttachPoint == null ? transform : _sailAttachPoint;
+        Sail defaultSail = Instantiate(_defaultSailPrefab, spawnTransform).GetComponent<Sail>();
         AssignNewSail(defaultSail);
     }
 
@@ -206,12 +260,31 @@ public class SailCharacter : Character
     public override string GetCharacterDebugData()
     {
         string characterData = "<size=150%>Sail Character</size>";
-        characterData += "\nVelocity : " + _velocity.ToString("F3");
-        characterData += "\nTarget velocity " + _targetVelocity.ToString("F3");
-        characterData += "\nAccel curve : " + Mathf.Clamp(GetSafeAlpha(_velocity, _targetVelocity), 0f, 1f).ToString("F3");
+        characterData += "\nVelocity : " + _windDisplacement.magnitude.ToString("F3");
+        characterData += "\nTarget velocity " + _targetWindDisplacement.magnitude.ToString("F3");
+        characterData += "\nAccel curve : " + Mathf.Clamp(GetSafeAlpha(_windDisplacement.magnitude, _targetWindDisplacement.magnitude), 0f, 1f).ToString("F3");
         characterData += "\nSail force : " + _sailMoveVector.magnitude.ToString("F3");
         characterData += "\nAcceleration : " + _acceleration.ToString("F3");
-        characterData += "\nTarget Sail Angle : " + _targetSailAngle;
+        characterData += "\nTarget Sail Angle : " + _targetSailAngle.ToString("F3");
         return characterData;
+    }
+
+    public void Impact(Vector2 impact)
+    {
+        float magnitude = impact.magnitude;
+
+        float duration = _impactDurationModifier * magnitude;
+        float peakForce = _impactPeakModifier * magnitude;
+
+        float velocityLossPercent = Mathf.InverseLerp(0f, _impactMaxVelocityLossThreshold, magnitude) * _impactMaxVelocityLoss;
+        velocityLossPercent = Mathf.Clamp(velocityLossPercent, 0f, _impactMaxVelocityLoss);
+        _windDisplacement -= _windDisplacement * velocityLossPercent;
+
+        DebugManager.instance.RequestNotification("Impact : " + magnitude.ToString("F3") +
+            "\nPeak force : " + peakForce.ToString("F3") +
+            "\nVelocity loss : " + (int)(velocityLossPercent * 100f) + "%" +
+            "\nDuration : " + duration.ToString("F3"));
+
+        StartCoroutine(AddModifierForce(duration, peakForce, impact, _impactCurve));
     }
 }
