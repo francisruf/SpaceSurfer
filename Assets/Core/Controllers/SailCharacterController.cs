@@ -38,4 +38,9 @@ public class SailCharacterController : PlayerController
     {
         _sailCharacter.RequestSailClose();
     }
+
+    public void OnSailPressure(InputValue value)
+    {
+        _sailCharacter.RequestSailPressure(value.Get<float>());
+    }
 }

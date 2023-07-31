@@ -36,6 +36,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2526561570643275387}
+  - {fileID: 5029141852870599393}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!70 &984010337865492948
@@ -153,7 +154,12 @@ MonoBehaviour:
   _maxSpeedPerSecond: 10
   _baseAccelerationRate: 0.15
   _baseDecelerationRate: 5
-  _sailAttachPoint: {fileID: 0}
+  _sailRotationType: 1
+  _clampSailRotation: 1
+  _sailRotationSpeed: 140
+  _sailPressureSpeed: 5
+  _maxSailAngle: 65
+  _sailAttachPoint: {fileID: 5029141852870599393}
   _impactCurve:
     serializedVersion: 2
     m_Curve:
@@ -200,9 +206,6 @@ MonoBehaviour:
   _impactPeakModifier: 1
   _impactMaxVelocityLoss: 0.9
   _impactMaxVelocityLossThreshold: 5
-  _sailRotationType: 1
-  _clampSailRotation: 1
-  _sailRotationSpeed: 140
 --- !u!114 &376300406788541560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -321,6 +324,37 @@ SortingGroup:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_SortAtRoot: 0
+--- !u!1 &2007052187615995842
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5029141852870599393}
+  m_Layer: 10
+  m_Name: SailAttachPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5029141852870599393
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2007052187615995842}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.058, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 376300406788541561}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3244237109022199161
 GameObject:
   m_ObjectHideFlags: 0

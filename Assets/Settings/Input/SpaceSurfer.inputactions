@@ -176,6 +176,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
+                },
+                {
+                    "name": "SailPressure",
+                    "type": "Value",
+                    "id": "2ebba583-2921-4ac1-a32f-440a878290a3",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -387,6 +396,17 @@
                     "action": "SailRotation1D",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "070b5681-8c0c-47e3-8a02-757c9cec5df5",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "SailPressure",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

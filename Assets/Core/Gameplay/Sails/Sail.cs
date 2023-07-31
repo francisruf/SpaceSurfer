@@ -16,7 +16,7 @@ public class Sail : MonoBehaviour, IWindAgent
     [Header("Debug")]
     private bool _debugForces;
     [SerializeField] private GameObject _windDebugPrefab;
-    
+
     // Components
     private Animator _animator;
     private List<LineRenderer> _windDebugs = new List<LineRenderer>();
@@ -26,9 +26,20 @@ public class Sail : MonoBehaviour, IWindAgent
     public ESailState SailState { get { return _sailState; } }
     private float _currentWindForce;
 
+    // 3D Sail
+    [Header("3D Sail")]
+    [SerializeField] private SkinnedMeshRenderer _sailRenderer;
+    
+
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
+        
+        if (_sailRenderer != null)
+        {
+            _sailRenderer.sortingLayerID = SortingLayer.NameToID("Environment");
+            _sailRenderer.sortingOrder = 2;
+        }
     }
 
     private void Start()
@@ -37,17 +48,14 @@ public class Sail : MonoBehaviour, IWindAgent
         IWindAgent.newAgentSubscribeRequest?.Invoke(this);
     }
 
-    public void RequestSailOpen()
+    public void SetSailPressure(float pressureAlpha)
     {
-        int newState = Mathf.Clamp(((int)_sailState) + 1, 0, 2);
-        ChangeSailState((ESailState)newState);
+        if (_sailRenderer == null)
+            return;
+
+        _sailRenderer.SetBlendShapeWeight(0, pressureAlpha * 100f);
     }
 
-    public void RequestSailClose()
-    {
-        int newState = Mathf.Clamp(((int)_sailState) - 1, 0, 2);
-        ChangeSailState((ESailState)newState);
-    }
     public void ChangeSailState(ESailState newState)
     {
         if (newState == _sailState)

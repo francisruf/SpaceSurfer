@@ -48937,7 +48937,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2303964120738582320, guid: 6fa670d4750763747ba29e737850097b, type: 3}
       propertyPath: _debug
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2303964120738582320, guid: 6fa670d4750763747ba29e737850097b, type: 3}
       propertyPath: _scrollSpeed

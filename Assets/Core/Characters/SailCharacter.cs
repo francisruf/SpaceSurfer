@@ -35,11 +35,21 @@ public class SailCharacter : Character, IImpactable
     private float _acceleration;
     private Vector2[] _modifiers = new Vector2[5];
 
-    // Sail logic
+
+    [Header("Sail")]
+    [SerializeField] private ESailRotationType _sailRotationType;
+    [SerializeField] private bool _clampSailRotation;
+    [SerializeField] private float _sailRotationSpeed = 5f;
+    [SerializeField] private float _sailPressureSpeed = 2f;
+    [Range(0f, 180f)]
+    [SerializeField] private float _maxSailAngle = 85f;
     [SerializeField] private Transform _sailAttachPoint;
+
     private Sail _currentSail;
     private float _targetSailAngle;
     private float _targetSailDirection;
+    private float _currentSailPressure;
+    private float _targetSailPressure;
 
     [Header("Impacts")]
     [SerializeField] private AnimationCurve _impactCurve;
@@ -50,10 +60,6 @@ public class SailCharacter : Character, IImpactable
     [SerializeField] private float _impactMaxVelocityLossThreshold = 2f;
 
 
-    [Header("Debug")]
-    [SerializeField] private ESailRotationType _sailRotationType;
-    [SerializeField] private bool _clampSailRotation;
-    [SerializeField] private float _sailRotationSpeed = 5f;
 
     private void Awake()
     {
@@ -78,6 +84,7 @@ public class SailCharacter : Character, IImpactable
     {
         RotateCharacter();
         RotateSail();
+        UpdateSailPressure();
         AssignWindForce();
         AssignGlobalVelocity();
     }
@@ -132,7 +139,7 @@ public class SailCharacter : Character, IImpactable
             case ESailRotationType.OneDimension:
                 _targetSailAngle += (_targetSailDirection * _sailRotationSpeed * Time.fixedDeltaTime);
                 if (_clampSailRotation)
-                    _targetSailAngle = Mathf.Clamp(_targetSailAngle, -85f, 85f);
+                    _targetSailAngle = Mathf.Clamp(_targetSailAngle, -_maxSailAngle, _maxSailAngle);
                 break;
             default:
                 break;
@@ -257,16 +264,30 @@ public class SailCharacter : Character, IImpactable
         _currentSail.ChangeSailState((ESailState)newState);
     }
 
-    public override string GetCharacterDebugData()
+    public void RequestSailPressure(float inputValue)
     {
-        string characterData = "<size=150%>Sail Character</size>";
-        characterData += "\nVelocity : " + _windDisplacement.magnitude.ToString("F3");
-        characterData += "\nTarget velocity " + _targetWindDisplacement.magnitude.ToString("F3");
-        characterData += "\nAccel curve : " + Mathf.Clamp(GetSafeAlpha(_windDisplacement.magnitude, _targetWindDisplacement.magnitude), 0f, 1f).ToString("F3");
-        characterData += "\nSail force : " + _sailMoveVector.magnitude.ToString("F3");
-        characterData += "\nAcceleration : " + _acceleration.ToString("F3");
-        characterData += "\nTarget Sail Angle : " + _targetSailAngle.ToString("F3");
-        return characterData;
+        _targetSailPressure = inputValue;
+    }
+
+    private void UpdateSailPressure()
+    {
+        if (_currentSail == null)
+            return;
+
+        if (_currentSail.SailState != ESailState.Extended)
+            return;
+
+        float directionModifier = _targetSailPressure - _currentSailPressure;
+        _currentSailPressure += _sailPressureSpeed * directionModifier * Time.deltaTime;
+
+        // TODO : Why the F won't a Mathf.Round work
+        if (_currentSailPressure < 0.01f)
+            _currentSailPressure = 0f;
+
+        else if (_currentSailPressure > 0.99f)
+            _currentSailPressure = 1f;
+
+        _currentSail.SetSailPressure(_currentSailPressure);
     }
 
     public void Impact(Vector2 impact)
@@ -286,5 +307,17 @@ public class SailCharacter : Character, IImpactable
             "\nDuration : " + duration.ToString("F3"));
 
         StartCoroutine(AddModifierForce(duration, peakForce, impact, _impactCurve));
+    }
+
+    public override string GetCharacterDebugData()
+    {
+        string characterData = "<size=150%>Sail Character</size>";
+        characterData += "\nVelocity : " + _windDisplacement.magnitude.ToString("F3");
+        characterData += "\nTarget velocity " + _targetWindDisplacement.magnitude.ToString("F3");
+        characterData += "\nAccel curve : " + Mathf.Clamp(GetSafeAlpha(_windDisplacement.magnitude, _targetWindDisplacement.magnitude), 0f, 1f).ToString("F3");
+        characterData += "\nSail force : " + _sailMoveVector.magnitude.ToString("F3");
+        characterData += "\nAcceleration : " + _acceleration.ToString("F3");
+        characterData += "\nTarget Sail Angle : " + _targetSailAngle.ToString("F3");
+        return characterData;
     }
 }
