@@ -114,8 +114,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _playerCharacter: 1
-  _startWithDebugEnabled: 0
+  _startWithDebugEnabled: 1
   _defaultSailPrefab: {fileID: 830970843733471353, guid: 4b5d8c10faf5b6543861ecd2c6524cf7, type: 3}
+  _spriteRenderer: {fileID: 2149098310354024445}
   _baseMoveSpeed: 2
   _rotationSpeed: 2
   _accelerationCurve:
@@ -206,6 +207,8 @@ MonoBehaviour:
   _impactPeakModifier: 1
   _impactMaxVelocityLoss: 0.9
   _impactMaxVelocityLossThreshold: 5
+  _impactFatalThreshold: 3
+  _superLol: {fileID: 1190115588725626593, guid: ac30588198605bc43b6eb5875fe83114, type: 3}
 --- !u!114 &376300406788541560
 MonoBehaviour:
   m_ObjectHideFlags: 0

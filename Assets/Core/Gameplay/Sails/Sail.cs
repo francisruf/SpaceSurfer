@@ -29,12 +29,12 @@ public class Sail : MonoBehaviour, IWindAgent
     // 3D Sail
     [Header("3D Sail")]
     [SerializeField] private SkinnedMeshRenderer _sailRenderer;
-    
+
 
     private void Awake()
     {
         _animator = GetComponentInChildren<Animator>();
-        
+
         if (_sailRenderer != null)
         {
             _sailRenderer.sortingLayerID = SortingLayer.NameToID("Environment");
@@ -92,7 +92,7 @@ public class Sail : MonoBehaviour, IWindAgent
 
         // Calculate if sail direction matches wind direction
         for (int i = 0; i < windForces.Count; i++)
-        { 
+        {
             float force;
             float dot = Vector2.Dot(transform.up, windForces[i].direction);
 
@@ -121,9 +121,9 @@ public class Sail : MonoBehaviour, IWindAgent
             DrawDebugWindForces(windForces);
     }
 
-    public void ToggleDebug(bool toggleON)
+    public void SetDebugEnabled(bool enableDebug)
     {
-        _debugForces = toggleON;
+        _debugForces = enableDebug;
         foreach (var renderer in _windDebugs)
         {
             renderer.enabled = false;
@@ -166,6 +166,29 @@ public class Sail : MonoBehaviour, IWindAgent
     public Vector3 GetWorldPosition()
     {
         return transform.position;
+    }
+
+    public void EnableSail()
+    {
+        if (_sailRenderer != null)
+        {
+            SetSailPressure(0f);
+            _sailRenderer.enabled = true;
+        }
+    }
+
+    public void DisableSail()
+    {
+        ChangeSailState(ESailState.Closed);
+        _animator.SetInteger("SailState", (int)_sailState);
+
+        if (_sailRenderer != null)
+        {
+            SetSailPressure(0f);
+            _sailRenderer.enabled = false;
+        }
+
+        SetDebugEnabled(false);
     }
 
 

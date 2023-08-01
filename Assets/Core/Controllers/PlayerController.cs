@@ -6,13 +6,54 @@ using System;
 
 public abstract class PlayerController : MonoBehaviour
 {
-    public static Action<PlayerController> OnPlayerControllerInstantiate;
+    public Action<Character> OnPossess;
+    public Action<Character> OnUnpossess;
 
-    protected virtual void Start()
+    protected Character _possessedCharacter;
+    protected EPlayerControllerState _controllerState;
+
+    protected virtual void Awake()
     {
-        if (OnPlayerControllerInstantiate != null)
-            OnPlayerControllerInstantiate(this);
+        
     }
 
     public abstract void OnMove(InputValue value);
+
+    public void Possess(Character character)
+    {
+        _possessedCharacter = character;
+        _possessedCharacter.OnCharacterEnabled += HandleCharacterEnabled;
+        _possessedCharacter.OnCharacterDisabled += HandleCharacterDisabled;
+        OnPossess?.Invoke(character);
+    }
+
+    public void Unpossess()
+    {
+        Character unpossessed = _possessedCharacter;
+        _possessedCharacter = null;
+        OnUnpossess?.Invoke(unpossessed);
+        _possessedCharacter.OnCharacterDisabled -= HandleCharacterDisabled;
+        _possessedCharacter.OnCharacterEnabled -= HandleCharacterEnabled;
+    }
+
+    public void HandleCharacterEnabled(Character character)
+    {
+        SetControllerState(EPlayerControllerState.MoveCharacter);
+    }
+
+    public void HandleCharacterDisabled(Character character)
+    {
+        SetControllerState(EPlayerControllerState.CharacterDisabled);
+    }
+
+    public virtual void SetControllerState(EPlayerControllerState newState)
+    {
+        _controllerState = newState;
+    }
+}
+
+public enum EPlayerControllerState
+{
+    CharacterDisabled,
+    MoveCharacter
 }

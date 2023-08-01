@@ -9,38 +9,111 @@ public class SailCharacterController : PlayerController
     // Components
     private SailCharacter _sailCharacter;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         _sailCharacter = GetComponent<SailCharacter>();
     }
 
     public override void OnMove(InputValue value)
     {
-        _sailCharacter.RequestMove(value.Get<Vector2>());
+        if (_possessedCharacter == null)
+            return;
+
+        switch (_controllerState)
+        {
+            case EPlayerControllerState.CharacterDisabled:
+                break;
+            case EPlayerControllerState.MoveCharacter:
+                _sailCharacter.RequestMove(value.Get<Vector2>());
+                break;
+            default:
+                break;
+        }
     }
 
     public void OnSailRotation(InputValue value)
     {
-        _sailCharacter.RequestSailRotation(value.Get<Vector2>());
+        if (_possessedCharacter == null)
+            return;
+
+        switch (_controllerState)
+        {
+            case EPlayerControllerState.CharacterDisabled:
+                break;
+            case EPlayerControllerState.MoveCharacter:
+                _sailCharacter.RequestSailRotation(value.Get<Vector2>());
+                break;
+            default:
+                break;
+        }
     }
 
     public void OnSailRotation1D(InputValue value)
     {
-        _sailCharacter.RequestSailRotation1D(value.Get<float>());
+        if (_possessedCharacter == null)
+            return;
+
+        switch (_controllerState)
+        {
+            case EPlayerControllerState.CharacterDisabled:
+                break;
+            case EPlayerControllerState.MoveCharacter:
+                _sailCharacter.RequestSailRotation1D(value.Get<float>());
+                break;
+            default:
+                break;
+        }
     }
 
     public void OnSailOpen(InputValue value)
     {
-        _sailCharacter.RequestSailOpen();
+        if (_possessedCharacter == null)
+            return;
+
+        switch (_controllerState)
+        {
+            case EPlayerControllerState.CharacterDisabled:
+                break;
+            case EPlayerControllerState.MoveCharacter:
+                _sailCharacter.RequestSailOpen();
+                break;
+            default:
+                break;
+        }
     }
 
     public void OnSailClose(InputValue value)
     {
-        _sailCharacter.RequestSailClose();
+        if (_possessedCharacter == null)
+            return;
+
+        switch (_controllerState)
+        {
+            case EPlayerControllerState.CharacterDisabled:
+                break;
+            case EPlayerControllerState.MoveCharacter:
+                _sailCharacter.RequestSailClose();
+                break;
+            default:
+                break;
+        }
     }
 
     public void OnSailPressure(InputValue value)
     {
-        _sailCharacter.RequestSailPressure(value.Get<float>());
+        if (_possessedCharacter == null)
+            return;
+
+        switch (_controllerState)
+        {
+            case EPlayerControllerState.CharacterDisabled:
+                break;
+            case EPlayerControllerState.MoveCharacter:
+                _sailCharacter.RequestSailPressure(value.Get<float>());
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -5,7 +5,12 @@ using UnityEngine;
 
 public abstract class Character : MonoBehaviour
 {
-    public static Action<Character> OnPlayerCharacterInstantiate;
+    public static Action<Character> OnPlayerCharacterEnabled;
+    public static Action<Character> OnPlayerCharacterDisabled;
+
+    public Action<Character> OnCharacterEnabled;
+    public Action<Character> OnCharacterDisabled;
+
     public static Action<Character> OnPlayerWorldPositionUpdate;
 
     [Header("Game Settings")]
@@ -16,10 +21,17 @@ public abstract class Character : MonoBehaviour
     protected bool _debugEnabled = false;
 
     public abstract void RequestMove(Vector2 direction);
-    
+
+    private IEnumerator _worldPositionUpdate;
+
     public virtual void ToggleDebug()
     {
-        _debugEnabled = !_debugEnabled;
+        SetDebugEnabled(!_debugEnabled);
+    }
+
+    public virtual void SetDebugEnabled(bool enableDebug)
+    {
+        _debugEnabled = enableDebug;
         Debug.Log("Character Debug : " + _debugEnabled);
     }
 
@@ -32,23 +44,45 @@ public abstract class Character : MonoBehaviour
     {
         // Initialize Character in scenes without GameManager
         if (GameManager.instance == null)
-            InitializeCharacter(_playerCharacter);
+            EnableCharacter(_playerCharacter);
     }
 
-    public void InitializeCharacter(bool isPlayerCharacter)
+    public virtual void EnableCharacter(bool isPlayerCharacter)
     {
         _playerCharacter = isPlayerCharacter;
 
         if (_playerCharacter)
         {
-            if (OnPlayerCharacterInstantiate != null)
-                OnPlayerCharacterInstantiate(this);
-
-            StartCoroutine(UpdateWorldPosition());
+            _worldPositionUpdate = UpdateWorldPosition();
+            StartCoroutine(_worldPositionUpdate);
 
             if (_startWithDebugEnabled)
-                ToggleDebug();
+                SetDebugEnabled(true);
+
+            OnPlayerCharacterEnabled?.Invoke(this);
         }
+
+        OnCharacterEnabled?.Invoke(this);
+
+        if (_debugEnabled)
+            Debug.Log("Character " + this.gameObject.name + " ENABLED.");
+    }
+
+    public virtual void DisableCharacter()
+    {
+        if (_worldPositionUpdate != null)
+        {
+            StopCoroutine(_worldPositionUpdate);
+            _worldPositionUpdate = null;
+        }
+
+        OnCharacterDisabled?.Invoke(this);
+
+        if (_playerCharacter)
+            OnPlayerCharacterDisabled?.Invoke(this);
+
+        if (_debugEnabled)
+            Debug.Log("Character " + this.gameObject.name + " DISABLED.");
     }
 
     // Send player world position update 10 times per sec
@@ -56,15 +90,16 @@ public abstract class Character : MonoBehaviour
     {
         while (true)
         {
-            if (OnPlayerWorldPositionUpdate != null)
-                OnPlayerWorldPositionUpdate(this);
+            OnPlayerWorldPositionUpdate?.Invoke(this);
 
             yield return new WaitForSeconds(0.1f);
         }
     }
 
-    public void AssignWeatherData()
+    public void Teleport(Vector3 position, Quaternion rotation)
     {
-
+        transform.position = position;
+        transform.rotation = rotation;
     }
+
 }

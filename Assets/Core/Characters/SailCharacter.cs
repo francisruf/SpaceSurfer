@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,15 @@ public enum ESailRotationType
 [RequireComponent(typeof(Rigidbody2D))]
 public class SailCharacter : Character, IImpactable
 {
+    public static Action<SailCharacter> onSailCharacterExplode;
+
     [Header("Prefabs")]
     [SerializeField] private GameObject _defaultSailPrefab;
 
-    // Components
+    [Header("Components")]
     private Rigidbody2D _rigidbody;
+    [SerializeField] private SpriteRenderer _spriteRenderer;
+    private Collider2D _collider;
 
     [Header("Movement")]
     [SerializeField] float _baseMoveSpeed = 5f;
@@ -58,20 +63,19 @@ public class SailCharacter : Character, IImpactable
     [Range(0f, 1f)]
     [SerializeField] private float _impactMaxVelocityLoss = 1f;
     [SerializeField] private float _impactMaxVelocityLossThreshold = 2f;
-
+    [SerializeField] private float _impactFatalThreshold = 3f;
+    [SerializeField] private GameObject _superLol;
 
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
+        _collider = GetComponent<Collider2D>();
     }
 
     protected override void Start()
     {
         base.Start();
-
-        // TODO : Temporary
-        SpawnDefaultSail();
     }
 
     private void Update()
@@ -89,10 +93,12 @@ public class SailCharacter : Character, IImpactable
         AssignGlobalVelocity();
     }
 
-    public override void ToggleDebug()
+    public override void SetDebugEnabled(bool enableDebug)
     {
-        base.ToggleDebug();
-        _currentSail?.ToggleDebug(_debugEnabled);
+        base.SetDebugEnabled(enableDebug);
+
+        if (_currentSail != null)
+            _currentSail.SetDebugEnabled(_debugEnabled);
     }
 
     public override void RequestMove(Vector2 direction)
@@ -290,9 +296,15 @@ public class SailCharacter : Character, IImpactable
         _currentSail.SetSailPressure(_currentSailPressure);
     }
 
-    public void Impact(Vector2 impact)
+    public void Impact(Vector2 impact, Vector2 impactPoint)
     {
         float magnitude = impact.magnitude;
+
+        if (magnitude >= _impactFatalThreshold)
+        {
+            Explode(impactPoint);
+            return;
+        }
 
         float duration = _impactDurationModifier * magnitude;
         float peakForce = _impactPeakModifier * magnitude;
@@ -319,5 +331,61 @@ public class SailCharacter : Character, IImpactable
         characterData += "\nAcceleration : " + _acceleration.ToString("F3");
         characterData += "\nTarget Sail Angle : " + _targetSailAngle.ToString("F3");
         return characterData;
+    }
+
+    private void Explode(Vector2 impactPoint)
+    {
+        DebugManager.instance.RequestNotification("You died lmao");
+        onSailCharacterExplode?.Invoke(this);
+        DisableCharacter();
+
+        if (_superLol != null)
+        {
+            GameObject explotion = Instantiate(_superLol, impactPoint, Quaternion.identity);
+        }
+    }
+
+    public override void EnableCharacter(bool isPlayerCharacter)
+    {
+        _spriteRenderer.enabled = true;
+        _collider.enabled = true;
+        _rigidbody.isKinematic = false;
+
+        if (_currentSail == null)
+            SpawnDefaultSail();
+
+        else
+            _currentSail.EnableSail();
+
+        base.EnableCharacter(isPlayerCharacter);
+    }
+
+    public override void DisableCharacter()
+    {
+        if (_currentSail != null)
+            _currentSail.DisableSail();
+
+        ResetMovementValues();
+
+        _spriteRenderer.enabled = false;
+        _collider.enabled = false;
+        _rigidbody.isKinematic = true;
+        base.DisableCharacter();
+    }
+
+    private void ResetMovementValues()
+    {
+        _targetDirection = Vector2.up;
+        _targetPosition = Vector2.zero;
+        _sailMoveVector = Vector2.zero;
+        _windDisplacement = Vector3.zero;
+        _targetWindDisplacement = Vector3.zero;
+        _acceleration = 0f;
+        for (int i = 0; i < _modifiers.Length; i++)
+            _modifiers[i] = Vector2.zero;
+        _targetSailAngle = 0f;
+        _targetSailDirection = 0f;
+        _currentSailPressure = 0f;
+        _targetSailPressure = 0f;
     }
 }

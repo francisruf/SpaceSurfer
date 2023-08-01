@@ -4,5 +4,5 @@ using UnityEngine;
 
 public interface IImpactable
 {
-    public void Impact(Vector2 impact);
+    public void Impact(Vector2 impact, Vector2 impactPoint);
 }

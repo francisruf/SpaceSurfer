@@ -22,6 +22,6 @@ public class Impacter : MonoBehaviour
         Debug.DrawLine(collision.gameObject.transform.position, collision.gameObject.transform.position + collision.gameObject.transform.up, Color.red, 10f);
         Debug.Log("BOOOOOM : " + impulse);
 
-        impactable.Impact(normal * -impulse);
+        impactable.Impact(normal * -impulse, point);
     }
 }

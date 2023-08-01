@@ -10,12 +10,12 @@ public class PlayerCameraManager : MonoBehaviour
 
     private void OnEnable()
     {
-        Character.OnPlayerCharacterInstantiate += HandleNewPlayerCharacter;
+        Character.OnPlayerCharacterEnabled += HandleNewPlayerCharacter;
     }
 
     private void OnDisable()
     {
-        Character.OnPlayerCharacterInstantiate += HandleNewPlayerCharacter;
+        Character.OnPlayerCharacterEnabled += HandleNewPlayerCharacter;
     }
 
     private void Awake()

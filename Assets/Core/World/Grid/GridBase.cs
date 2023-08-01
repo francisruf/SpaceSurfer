@@ -37,13 +37,13 @@ public abstract class GridBase<T> : MonoBehaviour
     protected virtual void OnEnable()
     {
         Character.OnPlayerWorldPositionUpdate += HandleNewPlayerPositionUpdate;
-        Character.OnPlayerCharacterInstantiate += HandleNewPlayerCharacter;
+        Character.OnPlayerCharacterEnabled += HandleNewPlayerCharacter;
     }
 
     protected virtual void OnDisable()
     {
         Character.OnPlayerWorldPositionUpdate -= HandleNewPlayerPositionUpdate;
-        Character.OnPlayerCharacterInstantiate -= HandleNewPlayerCharacter;
+        Character.OnPlayerCharacterEnabled -= HandleNewPlayerCharacter;
     }
 
     protected void HandleNewPlayerCharacter(Character player)
