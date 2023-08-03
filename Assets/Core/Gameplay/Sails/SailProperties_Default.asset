@@ -13,5 +13,4 @@ MonoBehaviour:
   m_Name: SailProperties_Default
   m_EditorClassIdentifier: 
   closedSpeed: 0
-  raisedSpeed: 1
-  extendedSpeed: 2.5
+  openSpeed: 2.5

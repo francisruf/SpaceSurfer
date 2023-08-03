@@ -33,13 +33,14 @@ public class Sail : MonoBehaviour, IWindAgent
 
     private void Awake()
     {
-        _animator = GetComponentInChildren<Animator>();
-
         if (_sailRenderer != null)
         {
             _sailRenderer.sortingLayerID = SortingLayer.NameToID("Environment");
             _sailRenderer.sortingOrder = 2;
+            _animator = _sailRenderer.GetComponent<Animator>();
         }
+        else
+            _animator = GetComponentInChildren<Animator>();
     }
 
     private void Start()
@@ -76,9 +77,7 @@ public class Sail : MonoBehaviour, IWindAgent
         {
             case ESailState.Closed:
                 return _closedSpeed;
-            case ESailState.Raised:
-                return _raisedSpeedMultiplier * _currentWindForce;
-            case ESailState.Extended:
+            case ESailState.Open:
                 return _extendedSpeedMultiplier * _currentWindForce;
             default:
                 return 0f;

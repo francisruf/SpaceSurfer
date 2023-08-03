@@ -249,7 +249,7 @@ public class SailCharacter : Character, IImpactable
     private void AssignNewSail(Sail newSail)
     {
         _currentSail = newSail;
-        _currentSail?.ChangeSailState(ESailState.Closed);
+        _currentSail.ChangeSailState(ESailState.Closed);
     }
 
     public void RequestSailOpen()
@@ -257,7 +257,7 @@ public class SailCharacter : Character, IImpactable
         if (_currentSail == null)
             return;
 
-        int newState = Mathf.Clamp(((int)_currentSail.SailState) + 1, 0, 2);
+        int newState = Mathf.Clamp(((int)_currentSail.SailState) + 1, 0, 1);
         _currentSail.ChangeSailState((ESailState)newState);
     }
 
@@ -266,7 +266,7 @@ public class SailCharacter : Character, IImpactable
         if (_currentSail == null)
             return;
 
-        int newState = Mathf.Clamp(((int)_currentSail.SailState) - 1, 0, 2);
+        int newState = Mathf.Clamp(((int)_currentSail.SailState) - 1, 0, 1);
         _currentSail.ChangeSailState((ESailState)newState);
     }
 
@@ -280,10 +280,12 @@ public class SailCharacter : Character, IImpactable
         if (_currentSail == null)
             return;
 
-        if (_currentSail.SailState != ESailState.Extended)
-            return;
+        float filteredPressure = _targetSailPressure;
 
-        float directionModifier = _targetSailPressure - _currentSailPressure;
+        if (_currentSail.SailState == ESailState.Closed)
+            filteredPressure = 0f;
+
+        float directionModifier = filteredPressure - _currentSailPressure;
         _currentSailPressure += _sailPressureSpeed * directionModifier * Time.deltaTime;
 
         // TODO : Why the F won't a Mathf.Round work

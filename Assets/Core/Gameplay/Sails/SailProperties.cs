@@ -6,6 +6,5 @@ using UnityEngine;
 public class SailProperties : ScriptableObject
 {
     public float closedSpeed;
-    public float raisedSpeed;
-    public float extendedSpeed;
+    public float openSpeed;
 }
