@@ -19,8 +19,9 @@ public class SailCharacter : Character, IImpactable
     [SerializeField] private GameObject _defaultSailPrefab;
 
     [Header("Components")]
+    private Animator _boardAnimator;
     private Rigidbody2D _rigidbody;
-    [SerializeField] private SpriteRenderer _spriteRenderer;
+    [SerializeField] private SpriteRenderer[] _spriteRenderers;
     private Collider2D _collider;
 
     [Header("Movement")]
@@ -30,6 +31,7 @@ public class SailCharacter : Character, IImpactable
     [SerializeField] float _maxSpeedPerSecond = 10f;
     [SerializeField] private float _baseAccelerationRate = 5f;
     [SerializeField] private float _baseDecelerationRate = 5f;
+    [SerializeField] private float _baseBrakingRate = 1f;
 
     // Movement logic
     private Vector2 _targetDirection = Vector2.up;
@@ -38,6 +40,8 @@ public class SailCharacter : Character, IImpactable
     private Vector3 _windDisplacement;
     private Vector3 _targetWindDisplacement;
     private float _acceleration;
+    private float _braking;
+    private float _brakingAlpha;
     private Vector2[] _modifiers = new Vector2[5];
 
 
@@ -69,6 +73,7 @@ public class SailCharacter : Character, IImpactable
 
     private void Awake()
     {
+        _boardAnimator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
         _collider = GetComponent<Collider2D>();
     }
@@ -107,6 +112,12 @@ public class SailCharacter : Character, IImpactable
             return;
 
         _targetDirection = direction;
+    }
+
+    public void RequestBraking(float brakingAlpha)
+    {
+        _brakingAlpha = brakingAlpha;
+        _boardAnimator.SetFloat("BrakingAlpha", _brakingAlpha);
     }
 
     private void RotateCharacter()
@@ -162,6 +173,9 @@ public class SailCharacter : Character, IImpactable
         float windForce = _sailMoveVector.magnitude;
 
         _acceleration = _baseAccelerationRate * windForce * _accelerationCurve.Evaluate(GetSafeAlpha(_windDisplacement.magnitude, windForce));
+        
+        // Get a little more braking the faster you go, but clamp min to avoid low braking rate when going slow.
+        _braking = _brakingAlpha * Mathf.Clamp(_baseBrakingRate * _windDisplacement.magnitude / 2f, _baseBrakingRate, float.MaxValue);
 
         if (windForce > _targetWindDisplacement.magnitude)
             _targetWindDisplacement = transform.up * windForce;
@@ -171,9 +185,8 @@ public class SailCharacter : Character, IImpactable
             _targetWindDisplacement = transform.up * Mathf.Clamp(_targetWindDisplacement.magnitude - 
                 (_targetWindDisplacement.magnitude / _baseDecelerationRate * Time.fixedDeltaTime), 0f, _maxSpeedPerSecond);
         }
-            
 
-        _windDisplacement = transform.up * Mathf.Clamp(_windDisplacement.magnitude + (_acceleration * Time.fixedDeltaTime), 0f, _targetWindDisplacement.magnitude);
+        _windDisplacement = transform.up * Mathf.Clamp(_windDisplacement.magnitude + (_acceleration * Time.fixedDeltaTime) - (_braking * Time.fixedDeltaTime), 0f, _targetWindDisplacement.magnitude);
     }
 
     private int GetNextModifierSlot(out bool success)
@@ -331,6 +344,7 @@ public class SailCharacter : Character, IImpactable
         characterData += "\nAccel curve : " + Mathf.Clamp(GetSafeAlpha(_windDisplacement.magnitude, _targetWindDisplacement.magnitude), 0f, 1f).ToString("F3");
         characterData += "\nSail force : " + _sailMoveVector.magnitude.ToString("F3");
         characterData += "\nAcceleration : " + _acceleration.ToString("F3");
+        characterData += "\nBraking : " + _braking.ToString("F3");
         characterData += "\nTarget Sail Angle : " + _targetSailAngle.ToString("F3");
         return characterData;
     }
@@ -349,7 +363,9 @@ public class SailCharacter : Character, IImpactable
 
     public override void EnableCharacter(bool isPlayerCharacter)
     {
-        _spriteRenderer.enabled = true;
+        foreach (var renderer in _spriteRenderers)
+            renderer.enabled = true;
+
         _collider.enabled = true;
         _rigidbody.isKinematic = false;
 
@@ -369,7 +385,9 @@ public class SailCharacter : Character, IImpactable
 
         ResetMovementValues();
 
-        _spriteRenderer.enabled = false;
+        foreach (var renderer in _spriteRenderers)
+            renderer.enabled = false;
+
         _collider.enabled = false;
         _rigidbody.isKinematic = true;
         base.DisableCharacter();
@@ -389,5 +407,8 @@ public class SailCharacter : Character, IImpactable
         _targetSailDirection = 0f;
         _currentSailPressure = 0f;
         _targetSailPressure = 0f;
+        _brakingAlpha = 0f;
+        _braking = 0f;
+        _boardAnimator.SetFloat("BrakingAlpha", 0f);
     }
 }

@@ -116,4 +116,21 @@ public class SailCharacterController : PlayerController
                 break;
         }
     }
+
+    public void OnBrake(InputValue value)
+    {
+        if (_possessedCharacter == null)
+            return;
+
+        switch (_controllerState)
+        {
+            case EPlayerControllerState.CharacterDisabled:
+                break;
+            case EPlayerControllerState.MoveCharacter:
+                _sailCharacter.RequestBraking(value.Get<float>());
+                break;
+            default:
+                break;
+        }
+    }
 }
