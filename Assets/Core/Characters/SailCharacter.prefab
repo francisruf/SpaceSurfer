@@ -160,7 +160,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   _maxSpeedPerSecond: 10
   _baseAccelerationRate: 0.15
-  _baseDecelerationRate: 5
+  _baseDecelerationRate: 0.25
   _baseBrakingRate: 1
   _sailRotationType: 1
   _clampSailRotation: 1

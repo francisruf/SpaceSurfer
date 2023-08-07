@@ -6916,7 +6916,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8888597877739184214, guid: 41e80b5b2595e3540aa70bf93463943d, type: 3}
       propertyPath: _windStrength
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8888597877739184215, guid: 41e80b5b2595e3540aa70bf93463943d, type: 3}
       propertyPath: m_Name
@@ -48408,7 +48408,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8888597877739184214, guid: 41e80b5b2595e3540aa70bf93463943d, type: 3}
       propertyPath: _windStrength
-      value: 8
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8888597877739184215, guid: 41e80b5b2595e3540aa70bf93463943d, type: 3}
       propertyPath: m_Name
@@ -48953,6 +48953,10 @@ PrefabInstance:
     - target: {fileID: 2303964120738582320, guid: 6fa670d4750763747ba29e737850097b, type: 3}
       propertyPath: _debug
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2303964120738582320, guid: 6fa670d4750763747ba29e737850097b, type: 3}
+      propertyPath: _direction.y
+      value: -0.25
       objectReference: {fileID: 0}
     - target: {fileID: 2303964120738582320, guid: 6fa670d4750763747ba29e737850097b, type: 3}
       propertyPath: _scrollSpeed

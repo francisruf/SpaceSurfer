@@ -171,19 +171,23 @@ public class SailCharacter : Character, IImpactable
 
         _sailMoveVector = _currentSail.GetMoveVector();
         float windForce = _sailMoveVector.magnitude;
+        windForce += windForce * _currentSailPressure / 2f;
 
         _acceleration = _baseAccelerationRate * windForce * _accelerationCurve.Evaluate(GetSafeAlpha(_windDisplacement.magnitude, windForce));
-        
+        _acceleration += _acceleration * _currentSailPressure * 3f;
+
         // Get a little more braking the faster you go, but clamp min to avoid low braking rate when going slow.
-        _braking = _brakingAlpha * Mathf.Clamp(_baseBrakingRate * _windDisplacement.magnitude / 2f, _baseBrakingRate, float.MaxValue);
+        _braking = _brakingAlpha * (_baseBrakingRate + (_baseBrakingRate * _windDisplacement.magnitude / 2f));
 
         if (windForce > _targetWindDisplacement.magnitude)
+        {
             _targetWindDisplacement = transform.up * windForce;
+        }
 
         else
         {
             _targetWindDisplacement = transform.up * Mathf.Clamp(_targetWindDisplacement.magnitude - 
-                (_targetWindDisplacement.magnitude / _baseDecelerationRate * Time.fixedDeltaTime), 0f, _maxSpeedPerSecond);
+                (_targetWindDisplacement.magnitude * _baseDecelerationRate * Time.fixedDeltaTime), 0f, _maxSpeedPerSecond);
         }
 
         _windDisplacement = transform.up * Mathf.Clamp(_windDisplacement.magnitude + (_acceleration * Time.fixedDeltaTime) - (_braking * Time.fixedDeltaTime), 0f, _targetWindDisplacement.magnitude);
@@ -317,7 +321,7 @@ public class SailCharacter : Character, IImpactable
 
         if (magnitude >= _impactFatalThreshold)
         {
-            Explode(impactPoint);
+            Explode(impact, impactPoint);
             return;
         }
 
@@ -336,6 +340,18 @@ public class SailCharacter : Character, IImpactable
         StartCoroutine(AddModifierForce(duration, peakForce, impact, _impactCurve));
     }
 
+    private void Explode(Vector2 impact, Vector2 impactPoint)
+    {
+        DebugManager.instance.RequestNotification   ("You died lmao" + "\nImpact : " + impact.magnitude.ToString("F3"));
+        onSailCharacterExplode?.Invoke(this);
+        DisableCharacter();
+
+        if (_superLol != null)
+        {
+            GameObject explotion = Instantiate(_superLol, impactPoint, Quaternion.identity);
+        }
+    }
+
     public override string GetCharacterDebugData()
     {
         string characterData = "<size=150%>Sail Character</size>";
@@ -349,17 +365,7 @@ public class SailCharacter : Character, IImpactable
         return characterData;
     }
 
-    private void Explode(Vector2 impactPoint)
-    {
-        DebugManager.instance.RequestNotification("You died lmao");
-        onSailCharacterExplode?.Invoke(this);
-        DisableCharacter();
-
-        if (_superLol != null)
-        {
-            GameObject explotion = Instantiate(_superLol, impactPoint, Quaternion.identity);
-        }
-    }
+   
 
     public override void EnableCharacter(bool isPlayerCharacter)
     {
