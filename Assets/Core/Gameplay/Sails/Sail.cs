@@ -36,7 +36,7 @@ public class Sail : MonoBehaviour, IWindAgent
         if (_sailRenderer != null)
         {
             _sailRenderer.sortingLayerID = SortingLayer.NameToID("Environment");
-            _sailRenderer.sortingOrder = 2;
+            _sailRenderer.sortingOrder = 3;
             _animator = _sailRenderer.GetComponent<Animator>();
         }
         else
