@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Player Prefabs")]
     [SerializeField] private GameObject _debugCharacter;
+    [SerializeField] private GameObject _debugCharacter_YellowDude;
     [SerializeField] private GameObject _sailCharacter;
 
     [Header("Spawning")]
@@ -70,6 +71,9 @@ public class GameManager : MonoBehaviour
         {
             case EPlayerCharacterType.DebugCharacter:
                 characterPrefab = _debugCharacter;
+                break;
+            case EPlayerCharacterType.DebugCharacter_YellowDude:
+                characterPrefab = _debugCharacter_YellowDude;
                 break;
             case EPlayerCharacterType.SailCharacter:
                 characterPrefab = _sailCharacter;

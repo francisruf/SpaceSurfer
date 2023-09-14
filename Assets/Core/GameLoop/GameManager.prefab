@@ -44,7 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a52a75d1d794a545a3d71466a2c2076, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _defaultCharacterType: 1
+  _defaultCharacterType: 2
   _debugCharacter: {fileID: 7193730858126901801, guid: 7717f10ff2cb9364b9d02d2d3b6ba001, type: 3}
+  _debugCharacter_YellowDude: {fileID: 8235771484643657237, guid: 653f681bc2ffe0440bcb0bb1872ec042, type: 3}
   _sailCharacter: {fileID: 376300406788541567, guid: 9277787bbdbaa0e47965b9a05dc482a7, type: 3}
   _defaultSpawn: {fileID: 0}
