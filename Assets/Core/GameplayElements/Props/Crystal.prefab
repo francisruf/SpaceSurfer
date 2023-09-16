@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: 1096098661997190296}
   - component: {fileID: 6556113559365765769}
   - component: {fileID: 6514703947734993968}
-  - component: {fileID: -7354112010874411603}
-  - component: {fileID: 5174709595448372953}
+  - component: {fileID: 2240001153209396658}
+  - component: {fileID: 1694106118016288178}
   m_Layer: 11
   m_Name: Crystal
   m_TagString: Untagged
@@ -75,9 +75,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1154028463
-  m_SortingLayer: 1
-  m_SortingOrder: 1
+  m_SortingLayerID: -2017528189
+  m_SortingLayer: 2
+  m_SortingOrder: 0
   m_Sprite: {fileID: 2021633530, guid: 794ab9e55d3ad2b48ada6b327b5b9f3c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -166,7 +166,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.000000059604645, y: 0.06982531}
@@ -182,7 +182,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.25344503, y: 0.13965061}
   m_EdgeRadius: 0
---- !u!114 &-7354112010874411603
+--- !u!114 &2240001153209396658
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,10 +191,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 1413147218096435842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d9c001eb317934fa4823335c2bbbf2, type: 3}
+  m_Script: {fileID: 11500000, guid: 72b8c8ade7dca354e848fc1bfae0ff49, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5174709595448372953
+  collisionEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1694106118016288178}
+        m_TargetAssemblyTypeName: Breakable, Assembly-CSharp
+        m_MethodName: Break
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1694106118016288178
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -203,6 +218,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1413147218096435842}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42d9c001eb317934fa4823335c2bbbf2, type: 3}
+  m_Script: {fileID: 11500000, guid: f256aa66f601a0649ac3f2392490c86d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

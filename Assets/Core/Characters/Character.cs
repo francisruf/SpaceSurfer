@@ -13,6 +13,8 @@ public abstract class Character : MonoBehaviour
 
     public static Action<Character> OnPlayerWorldPositionUpdate;
 
+    public Action<Vector2> OnDirectionFlip;
+
     [Header("Game Settings")]
     [SerializeField] protected bool _playerCharacter = true;
 

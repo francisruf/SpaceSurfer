@@ -1,12 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
-public class Crystal : MonoBehaviour
+[RequireComponent(typeof(Animator))]
+public class Breakable : MonoBehaviour
 {
+    public List<Event> onBreakEvents;
     private Animator _animator;
     private Collider2D _collider;
-    bool _destroyed = false;
+    bool _broken = false;
 
     private void Awake()
     {
@@ -14,20 +17,15 @@ public class Crystal : MonoBehaviour
         _collider = GetComponent<Collider2D>();
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void Break()
     {
-        Break();
-    }
-
-    private void Break()
-    {
-        if (!_destroyed)
+        if (!_broken)
         {
-            _collider.enabled = false;
+            if (_collider != null)
+                _collider.enabled = false;
+
             _animator.SetTrigger("Break");
-            _destroyed = true;
+            _broken = true;
         }
-
     }
-
 }

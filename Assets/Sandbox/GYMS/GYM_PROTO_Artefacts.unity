@@ -3812,6 +3812,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+--- !u!1 &383683816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+  m_PrefabInstance: {fileID: 1876405006}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &383683817
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383683816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e976182b02a1341a02d40496f50697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onInteractEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 383683823}
+        m_TargetAssemblyTypeName: ColorChanger, Assembly-CSharp
+        m_MethodName: CycleColor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &383683823
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 383683816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1a4ef8c81f8354e9d8e42c3e0b784c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &615713394
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3971,6 +4015,167 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+--- !u!1 &1082649457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+  m_PrefabInstance: {fileID: 1219733252}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1082649458
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082649457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e976182b02a1341a02d40496f50697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onInteractEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1082649464}
+        m_TargetAssemblyTypeName: ColorChanger, Assembly-CSharp
+        m_MethodName: CycleColor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1082649464
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082649457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1a4ef8c81f8354e9d8e42c3e0b784c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1 &1140633016 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5784405346393513717, guid: f78ef34a8927db2478ad75a022a5a341, type: 3}
+  m_PrefabInstance: {fileID: 2087435038127921367}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1140633022
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140633016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e976182b02a1341a02d40496f50697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onInteractEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1140633023}
+        m_TargetAssemblyTypeName: ColorChanger, Assembly-CSharp
+        m_MethodName: CycleColor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+--- !u!114 &1140633023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1140633016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1a4ef8c81f8354e9d8e42c3e0b784c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &1219733252
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_Name
+      value: Crystal (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2240001153209396658, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: collisionEvents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 1.836
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.832
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2240001153209396658, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+    - {fileID: 1694106118016288178, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1082649458}
+    - targetCorrespondingSourceObject: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1082649464}
+  m_SourcePrefab: {fileID: 100100000, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
 --- !u!1001 &1239036857
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4092,10 +4297,6 @@ PrefabInstance:
       propertyPath: m_BackGroundColor.r
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3921615627138785197, guid: 23643896a2fab854c9b72dc97668c158, type: 3}
-      propertyPath: m_CullingMask.m_Bits
-      value: 3263
-      objectReference: {fileID: 0}
     - target: {fileID: 5013206076615567418, guid: 23643896a2fab854c9b72dc97668c158, type: 3}
       propertyPath: m_Name
       value: PlayerCamera
@@ -4166,6 +4367,79 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e633b5c09512ec04796d6e62a3168508, type: 3}
+--- !u!1001 &1876405006
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_Name
+      value: Crystal (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2240001153209396658, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: collisionEvents.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 2.032
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.253
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2240001153209396658, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+    - {fileID: 1694106118016288178, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 383683817}
+    - targetCorrespondingSourceObject: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 383683823}
+  m_SourcePrefab: {fileID: 100100000, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
 --- !u!1 &2012442779
 GameObject:
   m_ObjectHideFlags: 0
@@ -4305,6 +4579,50 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+--- !u!1 &2112400738 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+  m_PrefabInstance: {fileID: 3206599582326037124}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &2112400745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112400738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1a4ef8c81f8354e9d8e42c3e0b784c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2112400746
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2112400738}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39e976182b02a1341a02d40496f50697, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  onInteractEvents:
+  - m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 2112400745}
+        m_TargetAssemblyTypeName: ColorChanger, Assembly-CSharp
+        m_MethodName: CycleColor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1001 &2087435038127921367
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4359,12 +4677,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5784405346393513717, guid: f78ef34a8927db2478ad75a022a5a341, type: 3}
       propertyPath: m_Layer
-      value: 11
+      value: 13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 5784405346393513717, guid: f78ef34a8927db2478ad75a022a5a341, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1140633022}
+    - targetCorrespondingSourceObject: {fileID: 5784405346393513717, guid: f78ef34a8927db2478ad75a022a5a341, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1140633023}
   m_SourcePrefab: {fileID: 100100000, guid: f78ef34a8927db2478ad75a022a5a341, type: 3}
 --- !u!1001 &3206599582326037124
 PrefabInstance:
@@ -4377,6 +4701,14 @@ PrefabInstance:
     - target: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
       propertyPath: m_Name
       value: Crystal
+      objectReference: {fileID: 0}
+    - target: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: m_Layer
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 2240001153209396658, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      propertyPath: collisionEvents.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8133275428050909133, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4418,10 +4750,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2240001153209396658, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+    - {fileID: 1694106118016288178, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2112400746}
+    - targetCorrespondingSourceObject: {fileID: 1413147218096435842, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2112400745}
   m_SourcePrefab: {fileID: 100100000, guid: 04f7c0be2564ce644937f17e4c25147f, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
@@ -4433,6 +4773,8 @@ SceneRoots:
   - {fileID: 2012442781}
   - {fileID: 2087435038127921367}
   - {fileID: 3206599582326037124}
+  - {fileID: 1219733252}
+  - {fileID: 1876405006}
   - {fileID: 2054445756}
   - {fileID: 222549713}
   - {fileID: 832551434}
