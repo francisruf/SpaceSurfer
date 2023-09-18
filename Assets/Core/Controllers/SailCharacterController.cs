@@ -17,6 +17,9 @@ public class SailCharacterController : PlayerController
 
     public override void OnMove(InputValue value)
     {
+        if (!_canMove)
+            return;
+
         if (_possessedCharacter == null)
             return;
 

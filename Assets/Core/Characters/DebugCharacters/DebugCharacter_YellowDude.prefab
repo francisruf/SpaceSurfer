@@ -9,10 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1283314970868629631}
-  - component: {fileID: 5086600344294221326}
   - component: {fileID: 5455104580653793833}
   m_Layer: 12
-  m_Name: InteractionController
+  m_Name: InteractionDetector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -33,19 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 8235771484643657238}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5086600344294221326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4124289463983380402}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d1a80ba01be84fb419b961683efddee7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  debug: 1
 --- !u!61 &5455104580653793833
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -78,7 +64,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.2, y: 0.1}
+  m_Offset: {x: 0.1, y: 0.1}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -89,7 +75,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.4, y: 0.4}
+  m_Size: {x: 0.6, y: 0.5}
   m_EdgeRadius: 0
 --- !u!1001 &1269472615736640572
 PrefabInstance:
@@ -202,6 +188,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 1283314970868629631}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7193730858126901801, guid: 7717f10ff2cb9364b9d02d2d3b6ba001, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4095355711607674223}
     - targetCorrespondingSourceObject: {fileID: 7193730856835387463, guid: 7717f10ff2cb9364b9d02d2d3b6ba001, type: 3}
       insertIndex: -1
       addedObject: {fileID: 8106037369510628764}
@@ -232,6 +221,25 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!1 &8235771484643657237 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7193730858126901801, guid: 7717f10ff2cb9364b9d02d2d3b6ba001, type: 3}
+  m_PrefabInstance: {fileID: 1269472615736640572}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &4095355711607674223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8235771484643657237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1a80ba01be84fb419b961683efddee7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactionDetector: {fileID: 5455104580653793833}
+  debug: 1
 --- !u!4 &8235771484643657238 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7193730858126901802, guid: 7717f10ff2cb9364b9d02d2d3b6ba001, type: 3}

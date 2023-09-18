@@ -87,7 +87,7 @@ public class GameManager : MonoBehaviour
         {
             _playerController = controller;
             controller.Possess(_playerCharacter);
-            controller.SetControllerState(EPlayerControllerState.MoveCharacter);
+            controller.SetControllerState(EPlayerControllerState.MoveCharacter, true, true);
         }
 
         _playerCharacter.EnableCharacter(true);

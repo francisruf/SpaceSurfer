@@ -13,7 +13,6 @@ public class DebugCharacterController : PlayerController
     protected override void Awake()
     {
         base.Awake();
-
     }
 
     protected virtual void Update()
@@ -23,6 +22,7 @@ public class DebugCharacterController : PlayerController
 
     public override void OnMove(InputValue value)
     {
+        base.OnMove(value);
         Vector2 input = value.Get<Vector2>();
         _character?.RequestMove(input);
     }

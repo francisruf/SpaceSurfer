@@ -6,17 +6,19 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(Collider2D))]
 public class InteractionController : MonoBehaviour
 {
-    private Collider2D _collider;
+    public Collider2D interactionDetector;
     private Character _character;
 
     private List<Interactable> _availableInteractables = new List<Interactable>();
     private Interactable _activeInteractable;
 
+    private bool _canInteract;
     public bool debug;
 
     private void Awake()
     {
-        _collider = GetComponent<Collider2D>();
+        if (interactionDetector == null)
+            Debug.LogWarning("No interaction detector found on interaction controller.");
     }
 
     private void OnEnable()
@@ -32,21 +34,26 @@ public class InteractionController : MonoBehaviour
     {
         if (_character != null)
             _character.OnDirectionFlip -= FlipCollider;
+
+        foreach (var interactable in _availableInteractables)
+        {
+            interactable.onDisable -= RemoveInteractable;
+        }
     }
 
     private void Update()
     {
-        if (debug)
-            if (Input.GetKeyDown(KeyCode.Space))
-                Interact();
     }
 
-    private void Interact()
+    public void SetCanInteract(bool canInteract)
     {
-        if (_activeInteractable == null)
-            return;
+        _canInteract = canInteract;
+    }
 
-        _activeInteractable.Interact();
+    public void OnInteract(InputValue value)   
+    {
+        if (_activeInteractable == null || !_canInteract)
+            return;
 
         if (debug)
         {
@@ -57,13 +64,18 @@ public class InteractionController : MonoBehaviour
                 Debug.DrawLine(transform.position, interact.gameObject.transform.position, lineColor, 5f);
             }
         }
+
+        _activeInteractable.Interact();
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
         Interactable interactable = collider.GetComponent<Interactable>();
         if (interactable != null)
-            AddInteractable(interactable);
+        {
+            if (interactable.IsEnabled)
+                AddInteractable(interactable);
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
@@ -76,6 +88,8 @@ public class InteractionController : MonoBehaviour
     private void AddInteractable(Interactable interactable)
     {
         _availableInteractables.Add(interactable);
+        interactable.onDisable += RemoveInteractable;
+
         SetInteractPriority();
 
         if (debug)
@@ -84,7 +98,9 @@ public class InteractionController : MonoBehaviour
 
     private void RemoveInteractable(Interactable interactable)
     {
+        interactable.onDisable -= RemoveInteractable;
         _availableInteractables.Remove(interactable);
+
         SetInteractPriority();
 
         if (debug)
@@ -93,10 +109,13 @@ public class InteractionController : MonoBehaviour
 
     private void FlipCollider(Vector2 direction)
     {
-        Vector2 newOffset = _collider.offset;
+        if (interactionDetector == null)
+            return;
+
+        Vector2 newOffset = interactionDetector.offset;
         newOffset.x = Mathf.Abs(newOffset.x) * Mathf.Sign(direction.x);
         newOffset.y = Mathf.Abs(newOffset.y) * Mathf.Sign(direction.y);
-        _collider.offset = newOffset;
+        interactionDetector.offset = newOffset;
     }
 
     public void OnMove(InputValue value)
