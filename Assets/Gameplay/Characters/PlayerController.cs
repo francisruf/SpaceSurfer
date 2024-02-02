@@ -18,6 +18,8 @@ public abstract class PlayerController : MonoBehaviour
     protected bool _canInteract;
     public bool CanInteract { get { return _canInteract; } }
 
+    protected Vector2 _aimDirection = new Vector2();
+
     protected virtual void Awake()
     {
         _interactionController = GetComponent<InteractionController>();
@@ -29,6 +31,25 @@ public abstract class PlayerController : MonoBehaviour
     {
         if (!_canMove)
             return;
+    }
+
+    public virtual void OnAimMouse(InputValue value)
+    {
+        _aimDirection = Camera.main.ScreenToWorldPoint(value.Get<Vector2>()) - transform.position;
+        _aimDirection.Normalize();
+        OnAim(_aimDirection);
+    }
+
+    public virtual void OnAimGamepad(InputValue value)
+    {
+        _aimDirection = value.Get<Vector2>() - (Vector2)transform.position;
+        _aimDirection.Normalize();
+        OnAim(_aimDirection);
+    }
+
+    public virtual void OnAim(Vector2 aim)
+    {
+        Debug.DrawLine(transform.position, (Vector2)transform.position + _aimDirection, Color.green, 0.1f);
     }
 
     public void Possess(Character character)

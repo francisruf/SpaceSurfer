@@ -46,6 +46,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _defaultCharacterType: 2
   _debugCharacter: {fileID: 7193730858126901801, guid: 7717f10ff2cb9364b9d02d2d3b6ba001, type: 3}
-  _debugCharacter_YellowDude: {fileID: 8235771484643657237, guid: 653f681bc2ffe0440bcb0bb1872ec042, type: 3}
+  _yellowDude: {fileID: 5501188372824037289, guid: eec68d9116bf5dc43b2014dc053b69bf, type: 3}
   _sailCharacter: {fileID: 376300406788541567, guid: 9277787bbdbaa0e47965b9a05dc482a7, type: 3}
   _defaultSpawn: {fileID: 0}

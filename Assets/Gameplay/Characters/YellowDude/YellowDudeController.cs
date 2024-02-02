@@ -4,15 +4,15 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(DebugCharacter))]
-public class DebugCharacterController : PlayerController
+public class YellowDudeController : PlayerController
 {
-    private DebugCharacter _character;
-
-
+    protected DebugCharacter _character;
+    private FieldOfView _fieldOfView;
 
     protected override void Awake()
     {
         base.Awake();
+        _fieldOfView = GetComponentInChildren<FieldOfView>();
     }
 
     protected virtual void Update()
@@ -25,5 +25,13 @@ public class DebugCharacterController : PlayerController
         base.OnMove(value);
         Vector2 input = value.Get<Vector2>();
         _character?.RequestMove(input);
+        _fieldOfView?.SetOrigin(transform.position);
+    }
+
+    public override void OnAim(Vector2 aim)
+    {
+        base.OnAim(aim);
+        _fieldOfView?.SetAimDirection(aim);
+        _fieldOfView?.UpdateFieldOfView();
     }
 }

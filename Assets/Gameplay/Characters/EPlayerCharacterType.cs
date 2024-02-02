@@ -1,6 +1,6 @@
 public enum EPlayerCharacterType
 {
     DebugCharacter,
-    DebugCharacter_YellowDude,
+    YellowDude,
     SailCharacter
 }
