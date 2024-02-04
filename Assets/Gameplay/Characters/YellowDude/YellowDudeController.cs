@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,8 @@ using UnityEngine.InputSystem;
 [RequireComponent(typeof(DebugCharacter))]
 public class YellowDudeController : PlayerController
 {
+    public static Action<PlayerController> requestOpenDevice;
+
     protected DebugCharacter _character;
     private FieldOfView _fieldOfView;
 
@@ -33,5 +36,10 @@ public class YellowDudeController : PlayerController
         base.OnAim(aim);
         _fieldOfView?.SetAimDirection(aim);
         _fieldOfView?.UpdateFieldOfView();
+    }
+
+    public void OnOpenDevice(InputValue value)
+    {
+        requestOpenDevice?.Invoke(this);
     }
 }

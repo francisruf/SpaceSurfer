@@ -53,3 +53,6 @@ TagManager:
   - name: ScreenSpaceVFX
     uniqueID: 1439083101
     locked: 0
+  - name: Device
+    uniqueID: 308040291
+    locked: 0

@@ -6,12 +6,16 @@ using System;
 
 public abstract class PlayerController : MonoBehaviour
 {
+    #region Actions
     public Action<Character> OnPossess;
     public Action<Character> OnUnpossess;
-
+    #endregion
+    #region Components
     protected Character _possessedCharacter;
     protected EPlayerControllerState _controllerState;
     protected InteractionController _interactionController;
+    protected PlayerInput _playerInput;
+    #endregion
 
     protected bool _canMove;
     public bool CanMove { get { return _canMove; } }
@@ -22,6 +26,7 @@ public abstract class PlayerController : MonoBehaviour
 
     protected virtual void Awake()
     {
+        _playerInput = GetComponent<PlayerInput>();
         _interactionController = GetComponent<InteractionController>();
         if (_interactionController == null)
             _interactionController = GetComponentInChildren<InteractionController>();
@@ -95,6 +100,16 @@ public abstract class PlayerController : MonoBehaviour
 
         if (_interactionController != null)
             _interactionController.SetCanInteract(_canInteract);
+    }
+
+    public void EnableInput()
+    {
+        _playerInput.enabled = true;
+    }
+
+    public void DisableInput()
+    {
+        _playerInput.enabled = false;
     }
 }
 

@@ -22,9 +22,9 @@ public abstract class Character : MonoBehaviour
     [SerializeField] protected bool _startWithDebugEnabled = false;
     protected bool _debugEnabled = false;
 
-    public abstract void RequestMove(Vector2 direction);
-
     private IEnumerator _worldPositionUpdate;
+
+    public abstract void RequestMove(Vector2 direction);
 
     public virtual void ToggleDebug()
     {
