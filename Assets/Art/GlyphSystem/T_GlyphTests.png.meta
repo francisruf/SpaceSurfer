@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 59d9b40913f5e7147a1930d7def5c4cd
+guid: 9ec38e7e78c482941aa5a6910405b35a
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -21,7 +21,7 @@ TextureImporter:
     heightScale: 0.25
     normalMapFilter: 0
     flipGreenChannel: 0
-  isReadable: 1
+  isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
@@ -81,7 +81,33 @@ TextureImporter:
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
+    buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
     buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Windows Store Apps
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
@@ -106,43 +132,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: WebGL
-    maxTextureSize: 128
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 3
-    buildTarget: Windows Store Apps
-    maxTextureSize: 128
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 0
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: T_Alphabet_Blocking_0
+      name: T_GlyphTests_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 23
-        width: 9
-        height: 9
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -150,20 +150,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 18d0afc713d47de49b92cec4a4932661
-      internalID: -1429937669
+      spriteID: 916f5456034d7d64d8752fe719d8a3aa
+      internalID: -1455062563
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_Alphabet_Blocking_1
+      name: T_GlyphTests_1
       rect:
         serializedVersion: 2
-        x: 9
-        y: 23
-        width: 9
-        height: 9
+        x: 16
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -171,20 +171,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e1d2440336b4af942ab582a0f65bd615
-      internalID: -1624024504
+      spriteID: de07e39b4871fa847b5c9d637758208b
+      internalID: 1331191665
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_Alphabet_Blocking_2
+      name: T_GlyphTests_2
       rect:
         serializedVersion: 2
-        x: 18
-        y: 23
-        width: 9
-        height: 9
+        x: 32
+        y: 48
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -192,83 +192,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e5e07d2413e0700488df1d92625888f7
-      internalID: -456686335
+      spriteID: 277bd0b8e8190204e80d1806f2ae781a
+      internalID: -1541601123
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_Alphabet_Blocking_3
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 14
-        width: 9
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 18e6e855bdfcd9c43a52c059aea28cb2
-      internalID: -1744388045
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: T_Alphabet_Blocking_4
-      rect:
-        serializedVersion: 2
-        x: 9
-        y: 14
-        width: 9
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 273fee3287fa8754d950295f0aea5582
-      internalID: -582352501
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: T_Alphabet_Blocking_5
-      rect:
-        serializedVersion: 2
-        x: 18
-        y: 14
-        width: 9
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 89134453109111d49a7210ff22bc7d6a
-      internalID: -1071215874
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: T_Alphabet_Blocking_6
+      name: T_GlyphTests_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 5
-        width: 9
-        height: 9
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,20 +213,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4e8321f1dce33064a83660dd94ff71ae
-      internalID: 105370762
+      spriteID: e3a9bce282fb7174fbf18938969e44ec
+      internalID: -1161800804
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_Alphabet_Blocking_7
+      name: T_GlyphTests_4
       rect:
         serializedVersion: 2
-        x: 9
-        y: 5
-        width: 9
-        height: 9
+        x: 16
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -297,20 +234,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2113b79d9625e9b4598d91ec09a41cf8
-      internalID: 138194842
+      spriteID: b6379f96da75deb48b001a2147e254aa
+      internalID: -96517874
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: T_Alphabet_Blocking_8
+      name: T_GlyphTests_5
       rect:
         serializedVersion: 2
-        x: 18
-        y: 5
-        width: 9
-        height: 9
+        x: 32
+        y: 32
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -318,8 +255,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0902c48afdb8c1d449cf2888b559a3c3
-      internalID: 1331301040
+      spriteID: faf42f5a051f3e747a45f6c05ddb3434
+      internalID: -2117003483
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: T_GlyphTests_6
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 45b729fd91a56ed44ad8bef2bc4602b6
+      internalID: -62060110
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: T_GlyphTests_7
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 61e5061048af0244b892aefbec99a0b6
+      internalID: -316154165
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: T_GlyphTests_8
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 16
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e8a8c2ec9e7595743938d855c9bb5910
+      internalID: 186218460
       vertices: []
       indices: 
       edges: []
@@ -335,15 +335,15 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      T_Alphabet_Blocking_0: -1429937669
-      T_Alphabet_Blocking_1: -1624024504
-      T_Alphabet_Blocking_2: -456686335
-      T_Alphabet_Blocking_3: -1744388045
-      T_Alphabet_Blocking_4: -582352501
-      T_Alphabet_Blocking_5: -1071215874
-      T_Alphabet_Blocking_6: 105370762
-      T_Alphabet_Blocking_7: 138194842
-      T_Alphabet_Blocking_8: 1331301040
+      T_GlyphTests_0: -1455062563
+      T_GlyphTests_1: 1331191665
+      T_GlyphTests_2: -1541601123
+      T_GlyphTests_3: -1161800804
+      T_GlyphTests_4: -96517874
+      T_GlyphTests_5: -2117003483
+      T_GlyphTests_6: -62060110
+      T_GlyphTests_7: -316154165
+      T_GlyphTests_8: 186218460
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

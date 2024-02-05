@@ -1,11 +1,13 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 public class DebugManager : MonoBehaviour
 {
-    public static Action<int> OnWindDirectionRequest;
+    public static Action<DebugManager> onDebugEnabled;
+    public static Action<DebugManager> onDebugDisabled;
 
     public static DebugManager instance;
 
@@ -19,10 +21,11 @@ public class DebugManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _characterDataText;
     [SerializeField] private TextMeshProUGUI _notificationText;
 
+    [SerializeField] private List<DebugText> _debugTexts;
+
     // Internal logic
     // TODO : Move this to the controller
     private bool _debugEnabled;
-    private int _debugWindDirection;
 
     // Game references
     private Character _playerCharacter;
@@ -55,6 +58,11 @@ public class DebugManager : MonoBehaviour
     {
         _debugCanvas.enabled = isEnabled;
         _debugEnabled = isEnabled;
+
+        if (_debugEnabled)
+            onDebugEnabled?.Invoke(this);
+        else
+            onDebugDisabled?.Invoke(this);
     }
 
     private void HandleNewPlayerCharacter(Character character)
@@ -102,5 +110,21 @@ public class DebugManager : MonoBehaviour
 
         _notificationCanvas.enabled = false;
         currentNotification = null;
+    }
+
+    public void EnableDebugText(int index, string debugText)
+    {
+        if (index >= _debugTexts.Count)
+            return;
+
+        _debugTexts[index].DisplayText(debugText);
+    }
+
+    public void DisableDebugText(int index)
+    {
+        if (index >= _debugTexts.Count)
+            return;
+
+        _debugTexts[index].HideText();
     }
 }
